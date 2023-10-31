@@ -10,11 +10,15 @@ Then, run these lines to start the server:
 ```
 cd Water-Crop
 cd server
+npm init -y
+npm install express cors
+npm install nodemon --save-dev
 npm start
 ```
 Finally, open another terminal and run these commands:
 ```
 cd Water-Crop
+npm install
 npm start
 ```
 
