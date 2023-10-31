@@ -1,6 +1,22 @@
-# Getting Started with Create React App
+# WaterCrop
+The purpose of WaterCrop is to provide automated assistance and statistics for people who are interested in cultivating any sort of plant, such as flowers, fruits, and vegetables. It is especially useful for beginner plant growers and plant enthusiasts who lead busy lives or frequently go on vacation. This repository contains the software for our product.
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Getting Started
+In order to start this project, clone the repository:
+```
+git clone https://github.com/ASantana0924/Water-Crop.git
+```
+Then, run these lines to start the server:
+```
+cd Water-Crop
+cd server
+npm start
+```
+Finally, open another terminal and run these commands:
+```
+cd Water-Crop
+npm start
+```
 
 ## Available Scripts
 
