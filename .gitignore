@@ -5,6 +5,11 @@
 /.pnp
 .pnp.js
 
+# server dependencies
+/server/node_modules
+/server/package-lock.json
+/server/package.json
+
 # testing
 /coverage
 
