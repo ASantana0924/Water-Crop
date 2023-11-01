@@ -6,10 +6,16 @@
 button {
   background-color: green;
   color: white;
-  font-size: large;
+  font-size: 20px;
+  font-weight: bold;
   padding: 20px;
   border-radius: 10px;
   cursor: pointer;
-  margin-top: 10px;
+  margin-top: 20px;
   margin-bottom: 20px;
+}
+
+p.statistics {
+  font-size: 20px;
+  font-weight: bold;
 }
