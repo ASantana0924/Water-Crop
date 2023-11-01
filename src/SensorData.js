@@ -3,15 +3,7 @@ import React, { useState, useEffect } from "react";
 
 export default function SensorData() {
     const [waterLevel, setWaterLevel] = useState("");
-    const [moistureLevel, setMoistureLevel] = useState("");    
-    useEffect(() => {
-    fetch("http://localhost:8000/data")
-        .then((res) => res.json())
-        .then((data) => {
-            setWaterLevel(data.waterLevel);
-            setMoistureLevel(data.moistureLevel);
-        })
-    }, []);
+    const [moistureLevel, setMoistureLevel] = useState("");
 
     const refreshData = async () => {
         const response = await fetch("http://localhost:8000/data");
