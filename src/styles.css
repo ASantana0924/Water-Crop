@@ -2,3 +2,14 @@
   font-family: sans-serif;
   text-align: center;
 }
+
+button {
+  background-color: green;
+  color: white;
+  font-size: large;
+  padding: 20px;
+  border-radius: 10px;
+  cursor: pointer;
+  margin-top: 10px;
+  margin-bottom: 20px;
+}
