@@ -25,20 +25,20 @@ export default function SensorData() {
     : "Water present";
 
     // Conditional statements to display different text based on moisture level
-    const moistureLevelText = moistureLevel >= 520
-    ? "Not in soil"
-    : moistureLevel >= 430
-        ? "Soil is Dry"
-        : moistureLevel >= 350
-            ? "Soil is Wet"
-            : "Submerged in Water";
+    const moistureLevelText = moistureLevel >= 15000
+        ? "No soil detected"
+        : moistureLevel >= 12000
+            ? "Soil is too dry"
+            : moistureLevel >= 8000
+                ? "Soil has a good amount of water"
+                : "Soil has too much water";
     
     return (
         <div className="App">
             <body>
                 <p className="statistics">Plant Statistics:</p>
                 <p>Water Level: {waterLevelText} <span id="water_level"></span></p>
-                <p>Moisture Level: {moistureLevel} <span id="moisture_level"></span></p>
+                <p>Moisture Level: {moistureLevelText} <span id="moisture_level"></span></p>
             </body>
         </div>
   );
