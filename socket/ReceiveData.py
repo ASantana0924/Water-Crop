@@ -22,11 +22,11 @@ while True:
     message, address = sock.recvfrom(4096)
 
     print(f'Received {len(message)} bytes:')
-    val = unpack('1f', message)
-    
+    waterLevel, moistureLevel = unpack('2f', message)
+
     data = {
-        "waterLevel": val,
-        "moistureLevel": val
+        "waterLevel": waterLevel,
+        "moistureLevel": moistureLevel
     }
 
     # Convert the Python object to a JSON string
