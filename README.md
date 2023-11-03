@@ -1,16 +1,41 @@
 # WaterCrop
 The purpose of WaterCrop is to provide automated assistance and statistics for people who are interested in cultivating any sort of plant, such as flowers, fruits, and vegetables. It is especially useful for beginner plant growers and plant enthusiasts who lead busy lives or frequently go on vacation. This repository contains the software for our product.
 
-## Getting Started
-In order to start socket communication with the Raspberry Pi:
-```
-cd socket
-python ReceiveData.py
-```
+## Completed Work
+So far, we have developed a simple React application with Home, Plant Profiles, and Stats pages. The Stats page fetches JSON data from "http://localhost:8000/data" every 0.5 seconds, and it continuously updates the waterLevel and moistureLevel data from the server.
 
+We have also successfully integrated the Raspberry Pi to ***TODO***
+
+## Architecture
+### /public
+This directory contains the HTML template and metadata for the React application.
+
+### /server
+This directory creates a simple Node.js server using Express.js that listens to localhost port 8000 and provides JSON data located in the "../socket/data.json" file when a GET request is made to the /data route.
+
+### /socket
+***TODO***
+
+### /src
+This directory contains the React application's source files, such as pages, tools, and CSS styles.
+The **index.js** file puts the React application into the HTML page, and the **App.js** file is the main component of the application.
+
+**pages** - The pages directory has the JavaScript files for the Home, Plant Profiles, and Stats pages. 
+
+**tools** - The tools directory has the JavaScript file for the navigation bar.
+
+## Known Bugs
+There are currently no known bugs.
+
+## Getting Started
 In order to start this project, clone the repository:
 ```
 git clone https://github.com/ASantana0924/Water-Crop.git
+```
+To start socket communication with the Raspberry Pi:
+```
+cd socket
+python ReceiveData.py
 ```
 Then, run these lines to start the server:
 ```
@@ -29,70 +54,3 @@ cd Water-Crop
 npm install
 npm start
 ```
-
-## Available Scripts
-
-In the project directory, you can run:
-
-### `npm start`
-
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
-
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
