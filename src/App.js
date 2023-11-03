@@ -1,13 +1,21 @@
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import "./styles.css";
 import React from "react";
-import Name from "./Name";
-import SensorData from "./SensorData"
+
+import Navbar from "./tools/Navbar";
+import Home from "./pages/Home";
+import PlantProfiles from "./pages/PlantProfiles";
+import Stats from "./pages/Stats";
 
 export default function App() {
   return (
-    <div className="App">
-      <Name />
-      <SensorData />
-    </div>
+    <Router>
+      <Navbar />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/plant-profiles" element={<PlantProfiles />} />
+        <Route path="/stats" element={<Stats />} />
+      </Routes>
+    </Router>
   );
 }

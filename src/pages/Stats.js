@@ -1,7 +1,7 @@
-import "./styles.css";
+import "../styles.css";
 import React, { useState, useEffect } from "react";
 
-export default function SensorData() {
+export default function Stats() {
     const [waterLevel, setWaterLevel] = useState("");
     const [moistureLevel, setMoistureLevel] = useState("");
 
