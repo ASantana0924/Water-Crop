@@ -19,6 +19,8 @@ cd server
 npm init -y
 npm install express cors
 npm install nodemon --save-dev
+npm install react-router-dom
+npm install antd
 npm start
 ```
 Finally, open another terminal and run these commands:
