@@ -12,6 +12,12 @@ export default function SensorData() {
         setWaterLevel(data.waterLevel);
         setMoistureLevel(data.moistureLevel);
     };
+
+    // useEffect hook to call the refreshData function every 0.5 seconds
+    useEffect(() => {
+        const interval = setInterval(refreshData, 500);
+        return () => clearInterval(interval);
+    }, []);
     
     return (
         <div className="App">
@@ -19,7 +25,6 @@ export default function SensorData() {
                 <p className="statistics">Plant Statistics:</p>
                 <p>Water Level: {waterLevel} <span id="water_level"></span></p>
                 <p>Moisture Level: {moistureLevel} <span id="moisture_level"></span></p>
-                <button onClick={refreshData}>Refresh Data</button>
             </body>
         </div>
   );
