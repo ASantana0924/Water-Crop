@@ -14,7 +14,7 @@ This directory contains the HTML template and metadata for the React application
 This directory creates a simple Node.js server using Express.js that listens to localhost port 8000 and provides JSON data located in the "../socket/data.json" file when a GET request is made to the /data route.
 
 ### /socket
-***TODO***
+This directory utilizes sockets to receive data from a UDP client (Raspberry Pi) and write it to a file in JSON format for it to be easily displayed on the Stats page.
 
 ### /src
 This directory contains the React application's source files, such as pages, tools, and CSS styles.
