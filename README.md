@@ -54,3 +54,4 @@ cd Water-Crop
 npm install
 npm start
 ```
+Bye
