@@ -28,29 +28,30 @@ The **index.js** file puts the React application into the HTML page, and the **A
 There are currently no known bugs.
 
 ## Getting Started
-In order to start this project, clone the repository:
+In order to start this project, clone the repository by running these commands in a terminal:
 ```
 git clone https://github.com/ASantana0924/Water-Crop.git
+cd Water-Crop
+npm install
 ```
-To start socket communication with the Raspberry Pi:
+Run these commands to start socket communication with the Raspberry Pi:
 ```
 cd socket
 python ReceiveData.py
 ```
-Then, run these lines to start the server:
+Open another terminal and run these commands to start the server:
 ```
 cd Water-Crop
 cd server
 npm init -y
 npm install express cors
 npm install nodemon --save-dev
-npm install react-router-dom
-npm install antd
 npm start
 ```
-Finally, open another terminal and run these commands:
+Open another terminal and run these commands to start the react app:
 ```
 cd Water-Crop
-npm install
+npm install react-router-dom
+npm install antd
 npm start
 ```
