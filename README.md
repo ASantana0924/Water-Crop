@@ -53,5 +53,6 @@ Open another terminal and run these commands to start the react app:
 cd Water-Crop
 npm install react-router-dom
 npm install antd
+npm install firebase
 npm start
 ```
