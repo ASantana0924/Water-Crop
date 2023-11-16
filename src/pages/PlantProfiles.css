@@ -1,0 +1,64 @@
+
+.PlantProfile {
+    margin: auto;
+    width: 80vw;
+    text-align: center;
+    height: 90vh;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.PlantInfo, .StatsTabs {
+    border: 3px solid rgb(7, 176, 24);
+    border-radius: 10px;;
+    margin: 10px;
+    padding-left: 10px;
+    text-align: left;
+    background-color: rgb(7, 176, 24);
+    color: white;
+    overflow: hidden;
+}
+
+.PlantInfo {
+    height: 20%;
+}
+
+.PlantText {
+    float: right;
+    width: 83%;
+}
+
+.PlantImage {
+    float: left;
+    height: 100%;
+    width: 10%;
+}
+
+.PlantImage img {
+    height: 100%;
+    border-radius: 5px;
+}
+
+.StatsTabs {
+    height: 70%;
+}
+
+.tabs {
+    text-align: center;
+}
+
+.tabs button {
+    width:30%;
+    height: 70px;
+    margin: 10px;
+    border-radius: 10px;
+    font-size: 190%;
+    border: none;
+}
+
+.tabs button:focus {
+    background-color: lightgreen;
+}
+
+.Chart {
+    text-align: center;
+}
