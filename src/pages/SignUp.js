@@ -22,6 +22,8 @@ export default function SignUp() {
     return (
         <div className="sign-up-container">
             <form onSubmit={signUp}>
+                <h1 style={{fontSize: '50px', fontWeight: 'bold', marginBottom: '30px'}}>Welcome to WaterCrop!</h1>
+                <h1></h1>
                 <h1>Create An Account</h1>
                 <input 
                 type="email" 
