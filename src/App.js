@@ -18,6 +18,21 @@ export default function App() {
 }
 
 function AppContent() {
+  const testPlant = {
+    id: 1,
+    name: 'Sunflower',
+    summary: 'This is information about sunflowers.',
+    imageLink: 'https://t4.ftcdn.net/jpg/02/25/12/33/360_F_225123378_iAHgUsACXnqBQIBjXNeBrC71RNEPgqUF.jpg',
+    stats: {
+      moisture: 'Good',
+      waterLevel: '80%',
+      temp: 73,
+      nitrogen: 1,
+      phosphorus: 2,
+      potassium: 3,
+    }
+  };
+  
   const location = useLocation();
 
   // Define an array of paths where you want to display the Navbar
@@ -33,7 +48,7 @@ function AppContent() {
         <Route path="/sign-up" element={<SignUp />} />
         <Route path="/" element={<Login />} />
         <Route path="/home" element={<Home />} />
-        <Route path="/plant-profiles" element={<PlantProfiles />} />
+        <Route path="/plant-profiles" element={<PlantProfiles plant={testPlant} />} />
         <Route path="/stats" element={<Stats />} />
       </Routes>
     </>
