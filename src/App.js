@@ -10,6 +10,14 @@ import SignUp from "./pages/SignUp";
 import Login from "./pages/Login";
 
 export default function App() {
+  return (
+    <Router>
+      <AppContent />
+    </Router>
+  );
+}
+
+function AppContent() {
   const testPlant = {
     id: 1,
     name: 'Sunflower',
@@ -24,15 +32,7 @@ export default function App() {
       potassium: 3,
     }
   };
-
-  return (
-    <Router>
-      <AppContent />
-    </Router>
-  );
-}
-
-function AppContent() {
+  
   const location = useLocation();
 
   // Define an array of paths where you want to display the Navbar
@@ -48,7 +48,7 @@ function AppContent() {
         <Route path="/sign-up" element={<SignUp />} />
         <Route path="/" element={<Login />} />
         <Route path="/home" element={<Home />} />
-        <Route path="/plant-profiles" element={<PlantProfiles />} />
+        <Route path="/plant-profiles" element={<PlantProfiles plant={testPlant} />} />
         <Route path="/stats" element={<Stats />} />
       </Routes>
     </>
