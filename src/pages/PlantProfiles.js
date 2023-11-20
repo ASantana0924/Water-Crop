@@ -1,11 +1,60 @@
 import "../styles.css";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./PlantProfiles.css";
+import { realtimeDatabase, RTDBRef } from "../firebase/firebase";
+import { onValue, set } from "firebase/database";
 
-export default function PlantProfiles({plant}) {
+export default function PlantProfiles() {
+
+    // Initialize plant object
+    const [plant, setPlant] = useState({
+        id: 1,
+        name: 'Sunflower',
+        summary: 'This is information about sunflowers.',
+        imageLink: 'https://t4.ftcdn.net/jpg/02/25/12/33/360_F_225123378_iAHgUsACXnqBQIBjXNeBrC71RNEPgqUF.jpg',
+        stats: {
+          moisture: 'Good',
+          waterLevel: '80%',
+          temp: 73,
+          nitrogen: 1,
+          phosphorus: 2,
+          potassium: 3,
+        }
+    });
 
     const [chartData, setChartData] = useState("Moisture Data");
-    
+    const [newMoisture, setNewMoisture] = useState();
+    const [newWaterLevel, setNewWaterLevel] = useState();
+
+    function GetRealtimeData() {
+        onValue(RTDBRef, (snapshot) => {
+            setNewMoisture(snapshot.val().moisture);
+            
+            if (snapshot.val().water_level) {
+                setNewWaterLevel("Full");
+            }
+            else {
+                setNewWaterLevel("Empty");
+            }
+
+            console.log(newMoisture);
+           
+            setPlant(prevPlant => ({
+                ...prevPlant,
+                stats: {
+                    ...prevPlant.stats,
+                    moisture: snapshot.val().moisture,
+                    waterLevel: snapshot.val().water_level,
+                }
+            }));
+        });
+    }
+
+    useEffect(() => {
+        const interval = setInterval(GetRealtimeData, 3000);
+        return () => clearInterval(interval);
+    }, []);
+
     return (
         <div className="PlantProfile">
             <h1>Plant Profile</h1>
