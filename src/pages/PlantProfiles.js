@@ -1,18 +1,26 @@
 import "../styles.css";
 import React, { useState } from "react";
 import "./PlantProfiles.css";
+import { useNavigate } from 'react-router-dom';
 
 export default function PlantProfiles({plant}) {
-
+    let navigate = useNavigate();
     const [chartData, setChartData] = useState("Moisture Data");
-    
+
+    const returnHome = () => {
+        let path = '/home';
+        navigate(path);
+    }
+
     return (
         <div className="PlantProfile">
-            <h1>Plant Profile</h1>
             <div className="PlantInfo">
                 <div className="PlantText">
                     <h1>Plant {plant.id}: {plant.name} </h1>
                     <h2>Description: {plant.summary} </h2>
+                    <div className="HomeButton">
+                        <button onClick={() => returnHome()}>Home</button>
+                    </div>
                 </div>
                 <div className="PlantImage">
                     <img src={plant.imageLink} alt="plant"/>

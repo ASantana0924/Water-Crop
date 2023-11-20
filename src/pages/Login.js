@@ -22,9 +22,9 @@ export default function Login() {
     return (
         <div className="login-container">
             <form onSubmit={logIn}>
-                <h1 style={{fontSize: '50px', fontWeight: 'bold', marginBottom: '30px'}}>Welcome to WaterCrop!</h1>
+                <h1 style={{fontSize: '60px', fontWeight: 'bold', marginTop: '100px', marginBottom: '60px'}}>Welcome to WaterCrop!</h1>
                 <h1></h1>
-                <h1>Login</h1>
+                <h1 style={{marginBottom: '30px'}}>Login</h1>
                 <input 
                 type="email" 
                 id="email" 
