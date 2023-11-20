@@ -1,6 +1,12 @@
 .App {
   font-family: sans-serif;
   text-align: center;
+  border: 40px solid green;
+  padding: 20px;
+  min-height: 100vh; /* Set minimum height to cover the entire viewport height */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 p.statistics {
@@ -13,8 +19,18 @@ p.statistics {
   margin: auto;
 }
 
+.HomeButton {
+  display: flex;
+  justify-content: flex-end;
+  position: absolute;
+  padding: 15px;
+  top: 0;
+  right: 0;
+}
+
 .Profiles #Plant {
- 
+  font-size: 30px;
+  font-weight: bold;
 }
 
 .Profiles .ViewStats {
@@ -22,11 +38,23 @@ p.statistics {
   font-size: 20px;
 }
 
+.Profiles {
+  max-width: 800px; /* Adjust the maximum width as needed */
+  padding: 15px; /* Adjust the padding as needed */
+  border: 2px solid #ccc;
+  border-radius: 20px; /* Adjust the border-radius for rounded corners */
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.2); /* Adjust the box-shadow as needed */
+  margin-top: 20px;
+  margin-bottom: 50px;
+}
+
 .App .Header {
+  font-weight: bold;
   text-align: center;
   font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-  margin-top: 120px;
-  font-style: italic; /* Italicize the text */
+  margin-top: 80px;
+  margin-bottom: 40px;
+  /*font-style: italic;  Italicize the text */
   text-decoration: underline; /* Underline the text */
   font-size: 50px; /* Adjust the font size as needed */
 }
@@ -34,15 +62,6 @@ p.statistics {
 .App .PageDescription {
   margin-top: 30px;
   font-size: 20px; /* Adjust the font size as needed */
-}
-
-.Profiles {
-  max-width: 800px; /* Adjust the maximum width as needed */
-  padding: 30px; /* Adjust the padding as needed */
-  border: 2px solid #ccc;
-  border-radius: 20px; /* Adjust the border-radius for rounded corners */
-  box-shadow: 0 0 15px rgba(0, 0, 0, 0.2); /* Adjust the box-shadow as needed */
-  margin-top: 90px;
 }
 
 .App {
@@ -58,10 +77,31 @@ p.statistics {
 
 .Description {
   font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-  font-size: 50px; /* Adjust the font size as needed */
+  font-size: 20px; /* Adjust the font size as needed */
 }
 
 .App .ButtonContainer {
-  margin-top: 100px;
+  margin-top: 70px;
   font-size: 30px;
+  margin-bottom: 50px;
+}
+
+.login-container {
+  font-family: sans-serif;
+  text-align: center;
+  border: 40px solid green;
+  padding: 20px;
+  min-height: 100vh; /* Set minimum height to cover the entire viewport height */
+  display: flex;
+  flex-direction: column;
+}
+
+.sign-up-container {
+  font-family: sans-serif;
+  text-align: center;
+  border: 40px solid green;
+  padding: 20px;
+  min-height: 100vh; /* Set minimum height to cover the entire viewport height */
+  display: flex;
+  flex-direction: column;
 }
