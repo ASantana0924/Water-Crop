@@ -4,42 +4,15 @@ import "./PlantProfiles.css";
 import { realtimeDatabase, RTDBRef } from "../firebase/firebase";
 import { onValue, set } from "firebase/database";
 
-export default function PlantProfiles() {
-
-    // Initialize plant object
-    const [plant, setPlant] = useState({
-        id: 1,
-        name: 'Sunflower',
-        summary: 'This is information about sunflowers.',
-        imageLink: 'https://t4.ftcdn.net/jpg/02/25/12/33/360_F_225123378_iAHgUsACXnqBQIBjXNeBrC71RNEPgqUF.jpg',
-        stats: {
-          moisture: 'Good',
-          waterLevel: '80%',
-          temp: 73,
-          nitrogen: 1,
-          phosphorus: 2,
-          potassium: 3,
-        }
-    });
+export default function PlantProfiles({ plant, updatePlant }) {
 
     const [chartData, setChartData] = useState("Moisture Data");
     const [newMoisture, setNewMoisture] = useState();
     const [newWaterLevel, setNewWaterLevel] = useState();
 
-    function GetRealtimeData() {
+    function updateValues() {
         onValue(RTDBRef, (snapshot) => {
-            setNewMoisture(snapshot.val().moisture);
-            
-            if (snapshot.val().water_level) {
-                setNewWaterLevel("Full");
-            }
-            else {
-                setNewWaterLevel("Empty");
-            }
-
-            console.log(newMoisture);
-           
-            setPlant(prevPlant => ({
+            updatePlant(prevPlant => ({
                 ...prevPlant,
                 stats: {
                     ...prevPlant.stats,
@@ -51,7 +24,7 @@ export default function PlantProfiles() {
     }
 
     useEffect(() => {
-        const interval = setInterval(GetRealtimeData, 3000);
+        const interval = setInterval(updateValues, 3000);
         return () => clearInterval(interval);
     }, []);
 
