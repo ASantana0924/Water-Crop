@@ -1,33 +1,35 @@
 import React, { useState, useEffect } from 'react';
-import '../styles.css';
+import SearchBar from "./SearchBar";
 import { useNavigate } from 'react-router-dom';
+import '../styles.css';
 
 export default function Home() {
   let navigate = useNavigate();
   const [plantProfiles, setPlantProfiles] = useState(() => JSON.parse(localStorage.getItem('plantProfiles')) || []);
+  const [plantEntries, setPlantEntries] = useState([]);
+  const [isSearchVisible, setSearchVisibility] = useState(false);
 
+  useEffect(() => {
+    fetchPlantEntries();
+  }, []);
+  
   useEffect(() => {
     localStorage.setItem('plantProfiles', JSON.stringify(plantProfiles));
   }, [plantProfiles]);
 
-  const handleAddPlant = () => {
-    if (plantProfiles.length < 3) {
-      const newPlant = {
-        id: plantProfiles.length + 1,
-        name: 'Sunflower',
-        summary: 'This is information about sunflowers.',
-        imageLink: 'https://t4.ftcdn.net/jpg/02/25/12/33/360_F_225123378_iAHgUsACXnqBQIBjXNeBrC71RNEPgqUF.jpg',
-        stats: {
-          moisture: 'Good',
-          waterLevel: '80%',
-          temp: 73,
-          nitrogen: 1,
-          phosphorus: 2,
-          potassium: 3,
-        },
-      };
+  const fetchPlantEntries = async () => {
+    try {
+      const response = await fetch('./plantProfiles.json');
+      const data = await response.json();
+      setPlantEntries(data);
+    } catch (error) {
+      console.error('Error fetching plant entries:', error);
+    }
+  };
 
-      setPlantProfiles((prevProfiles) => [...prevProfiles, newPlant]);
+  const handleAddPlant = (plantIndex) => {
+    if (plantProfiles.length < 3) {
+      setPlantProfiles((prevProfiles) => [...prevProfiles, plantEntries.at(plantIndex)]);
     } else {
       alert('Maximum of 3 plants allowed.');
     }
@@ -47,6 +49,10 @@ export default function Home() {
     navigate(path);
   };
 
+  const toggleSearchVisibility = () => {
+    setSearchVisibility(!isSearchVisible);
+  }
+
   return (
     <div className="App">
       <h1 className="Header">Welcome to WaterCrop!</h1>
@@ -54,8 +60,11 @@ export default function Home() {
         This page shows plants connected to your profile, along with options to manage them.
       </p>
       <div className="ButtonContainer">
-        <button onClick={handleAddPlant}>Add Plant</button>
+        <button onClick={toggleSearchVisibility}>Add Plant</button>
       </div>
+      {isSearchVisible && (
+        <SearchBar data={plantEntries} onPlantSelect={handleAddPlant}/>
+      )}
       <div className="CenterContainer">
         {plantProfiles.map((plant, index) => (
           <div className="Profiles" key={plant.id}>
@@ -79,65 +88,3 @@ export default function Home() {
     </div>
   );
 }
-
-
-
-/* 
-import React, { useState } from "react";
-import "../styles.css";
-
-export default function Home() {
-  // Example state to demonstrate dynamic content
-  const [plantData, setPlantData] = useState({
-    id: 1,
-    name: 'Sunflower',
-    summary: 'This is information about sunflowers.',
-    imageLink: 'https://t4.ftcdn.net/jpg/02/25/12/33/360_F_225123378_iAHgUsACXnqBQIBjXNeBrC71RNEPgqUF.jpg',
-    stats: {
-      moisture: 'Good',
-      waterLevel: '80%',
-      temp: 73,
-      nitrogen: 1,
-      phosphorus: 2,
-      potassium: 3,
-    }
-  });
-
-  // A function can use "setPlantData" to change the plantData
-  return (
-    <div className="App">
-      <h1 className="Header">Welcome to WaterCrop!</h1>
-      <p className="PageDescription">This page shows plants connected to your profile, along with an option to update the plant.</p>
-      <div className="ButtonContainer">
-        <button onClick={() => handleAddPlant()}>Add Plant</button>
-        <button onClick={() => handleEditPlant()}>Edit Plant</button>
-      </div>
-      <div className="CenterContainer">
-        <div className="Profiles">
-          <p className="Description">{plantData.description}</p>
-          <div id="Plant">
-            <img src={plantData.imageUrl} alt={plantData.name} />
-          </div>
-          <button onClick={() => handleStatsPlant()}>View Statistics!</button>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-const handleAddPlant = () => {
-  // For example, you can update the state or navigate to a different page
-  console.log("Adding a new plant!");
-};
-
-const handleEditPlant = () => {
-  // For example, you can open a modal or navigate to a different page
-  console.log("Editing the current plant!");
-};
-
-const handleStatsPlant = () => {
-  // For example, you can open a modal or navigate to a different page
-  console.log("Editing the current plant!");
-};
-
-*/
