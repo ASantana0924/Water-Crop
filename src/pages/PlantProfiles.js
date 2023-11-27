@@ -1,33 +1,55 @@
 import "../styles.css";
 import React, { useState, useEffect } from "react";
 import "./PlantProfiles.css";
-import { realtimeDatabase, RTDBRef } from "../firebase/firebase";
-import { onValue, set } from "firebase/database";
+import { RTDBRef, plantStatsHistory } from "../firebase/firebase";
+import { onValue, set, get, ref } from "firebase/database";
+import { collection, addDoc } from 'firebase/firestore';
 
 export default function PlantProfiles({ plant, updatePlant }) {
-
+    // Initialize useState variables for plant profile page
     const [chartData, setChartData] = useState("Moisture Data");
-    const [newMoisture, setNewMoisture] = useState();
-    const [newWaterLevel, setNewWaterLevel] = useState();
+    const [newData, setNewData] = useState();
 
-    function updateValues() {
-        onValue(RTDBRef, (snapshot) => {
-            updatePlant(prevPlant => ({
-                ...prevPlant,
-                stats: {
-                    ...prevPlant.stats,
-                    moisture: snapshot.val().moisture,
-                    waterLevel: snapshot.val().water_level,
-                }
-            }));
+    let pollingActive = true;
+
+    // Poll current values from realtime database
+    onValue(RTDBRef, (snapshot) => {
+        // Update plant object attributes with live data
+        updatePlant(prevPlant => ({
+            ...prevPlant,
+            stats: {
+                ...prevPlant.stats,
+                moisture: snapshot.val().moisture,
+                waterLevel: snapshot.val().water_level,
+            }
+        }));
+
+        const timestamp = Date.now();
+        const data = snapshot.val();
+
+        setNewData({
+            timestamp: timestamp,
+            data: data
         });
+    });
+
+    if (pollingActive) {
+        plantStatsHistory.add(newData)
+            .then(() => {
+                console.log("Added");
+            })
+            .catch((error) => {
+                console.error("error");
+            });
     }
 
-    useEffect(() => {
-        const interval = setInterval(updateValues, 3000);
-        return () => clearInterval(interval);
-    }, []);
+    setTimeout(() => {
+        pollingActive = false;
+        console.log("Polling stopped");
+    }, 60000);
 
+
+    // Render plant profile page
     return (
         <div className="PlantProfile">
             <h1>Plant Profile</h1>
