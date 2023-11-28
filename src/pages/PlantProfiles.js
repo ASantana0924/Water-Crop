@@ -3,11 +3,19 @@ import React, { useState, useEffect } from "react";
 import "./PlantProfiles.css";
 import { RTDBRef } from "../firebase/firebase";
 import { onValue } from "firebase/database";
+import { useNavigate } from 'react-router-dom';
 
 
 export default function PlantProfiles({ plant, updatePlant, history, updateHistory}) {
+    let navigate = useNavigate();
+    
     // Initialize useState variables for plant profile page
     const [chartData, setChartData] = useState("Moisture");
+
+    const returnHome = () => {
+        let path = '/home';
+        navigate(path);
+    }
 
     useEffect(() => {
         // Listen for changes in the database

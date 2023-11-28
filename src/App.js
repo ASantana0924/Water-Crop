@@ -1,7 +1,6 @@
 import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
 import "./styles.css";
 import React , { useState, useCallback } from "react";
-
 import Navbar from "./tools/Navbar";
 import Home from "./pages/Home";
 import PlantProfiles from "./pages/PlantProfiles";
@@ -55,7 +54,7 @@ function AppContent() {
 
   return (
     <>
-      {shouldShowNavbar && <Navbar />}
+      {/* {shouldShowNavbar && <Navbar />} */}
       <Routes>
         <Route path="/sign-up" element={<SignUp />} />
         <Route path="/" element={<Login />} />
