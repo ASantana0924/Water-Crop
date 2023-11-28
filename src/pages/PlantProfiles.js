@@ -1,52 +1,104 @@
 import "../styles.css";
 import React, { useState, useEffect } from "react";
 import "./PlantProfiles.css";
-import { RTDBRef, plantStatsHistory } from "../firebase/firebase";
-import { onValue, set, get, ref } from "firebase/database";
-import { collection, addDoc } from 'firebase/firestore';
+import { RTDBRef } from "../firebase/firebase";
+import { onValue } from "firebase/database";
 
-export default function PlantProfiles({ plant, updatePlant }) {
+
+export default function PlantProfiles({ plant, updatePlant, history, updateHistory}) {
     // Initialize useState variables for plant profile page
-    const [chartData, setChartData] = useState("Moisture Data");
-    const [newData, setNewData] = useState();
+    const [chartData, setChartData] = useState("Moisture");
 
-    let pollingActive = true;
+    useEffect(() => {
+        // Listen for changes in the database
+        const unsubscribe = onValue(RTDBRef, (snapshot) => {
+            // Update plant object attributes with live data
 
-    // Poll current values from realtime database
-    onValue(RTDBRef, (snapshot) => {
-        // Update plant object attributes with live data
-        updatePlant(prevPlant => ({
-            ...prevPlant,
-            stats: {
-                ...prevPlant.stats,
-                moisture: snapshot.val().moisture,
-                waterLevel: snapshot.val().water_level,
+            let waterLevelString = "Empty";
+            if (snapshot.val().water_level) {
+                waterLevelString = "Full";
             }
-        }));
 
-        const timestamp = Date.now();
-        const data = snapshot.val();
+            const moisture = snapshot.val().moisture;
+            let moistureString = "No Soil";
+            if (moisture <= 17000 && moisture > 15000) {
+                moistureString = "Low";
+            }
+            else if (moisture <= 15000 && moisture > 11000) {
+                moistureString = "Good";
+            }
+            else if (moisture <= 11000 && moisture > 9000) {
+                moistureString = "High";
+            }
+            else if (moisture <= 9000) {
+                moistureString = "In Water";
+            }
 
-        setNewData({
-            timestamp: timestamp,
-            data: data
+            updatePlant(prevPlant => ({
+                ...prevPlant,
+                stats: {
+                    ...prevPlant.stats,
+                    moisture: moistureString,
+                    waterLevel: waterLevelString,
+                    temp: snapshot.val().temperature,
+                    nitrogen: snapshot.val().nitrogen,
+                    phosphorus: snapshot.val().phosphorus,
+                    potassium: snapshot.val().potassium
+                }
+            }));
+
+            const data = {
+                time: snapshot.val().time, 
+                moistureString: moistureString,
+                moistureNum: snapshot.val().moisture,
+                waterLevel: waterLevelString
+            };
+
+            updateHistory(prevHistory => [data, ...prevHistory])
         });
-    });
+ 
+        // Clean up the listener when the component unmounts
+        return () => {
+            unsubscribe();
+        };
+    }, []);
 
-    if (pollingActive) {
-        plantStatsHistory.add(newData)
-            .then(() => {
-                console.log("Added");
-            })
-            .catch((error) => {
-                console.error("error");
-            });
+    function renderTableValues() {
+        if (chartData == "Moisture") {
+            return(
+                <tbody>
+                    {history.map((entry)=>
+                        <tr>
+                            <td>{entry.time}</td>
+                            <td>{entry.moistureString} - {entry.moistureNum}</td>
+                        </tr>
+                    )}
+                </tbody>
+            );
+        }
+        else if (chartData == "Water Level") {
+            return(
+                <tbody>
+                    {history.map((entry)=>
+                        <tr>
+                            <td>{entry.time}</td>
+                            <td>{entry.waterLevel}</td>
+                        </tr>
+                    )}
+                </tbody>
+            );
+        }
+        else {
+            return(
+                <tbody>
+                    <tr>
+                        <td>No Data Yet</td>
+                        <td>No Data Yet</td>
+                    </tr>
+                </tbody>
+            )
+        }
     }
-
-    setTimeout(() => {
-        pollingActive = false;
-        console.log("Polling stopped");
-    }, 60000);
 
 
     // Render plant profile page
@@ -66,18 +118,26 @@ export default function PlantProfiles({ plant, updatePlant }) {
             <div className="StatsTabs">
                 <h1>Live Stats:</h1>
                 <div class="tabs">
-                    <button class="tablinks" onClick={() => setChartData("Moisture Data")} autofocus>Moisture: {plant.stats.moisture}</button>
-                    <button class="tablinks" onClick={() => setChartData("Water Level Data")} >Water Level: {plant.stats.waterLevel}</button>
-                    <button class="tablinks" onClick={() => setChartData("Temperature Data")}>Temp: {plant.stats.temp}</button>
+                    <button class="tablinks" onClick={() => setChartData("Moisture")} autofocus>Moisture: {plant.stats.moisture}</button>
+                    <button class="tablinks" onClick={() => setChartData("Water Level")} >Water Level: {plant.stats.waterLevel}</button>
+                    <button class="tablinks" onClick={() => setChartData("Temperature")}>Temp: {plant.stats.temp}</button>
                 </div>
                 <div class="tabs">
-                    <button class="tablinks" onClick={() => setChartData("Nitrogen Data")}>Nitrogen: {plant.stats.nitrogen}</button>
-                    <button class="tablinks" onClick={() => setChartData("Phosphorus Data")}>Phosphorus: {plant.stats.phosphorus}</button>
-                    <button class="tablinks" onClick={() => setChartData("Potassium Data")}>Potassium: {plant.stats.potassium}</button>
+                    <button class="tablinks" onClick={() => setChartData("Nitrogen")}>Nitrogen: {plant.stats.nitrogen}</button>
+                    <button class="tablinks" onClick={() => setChartData("Phosphorus")}>Phosphorus: {plant.stats.phosphorus}</button>
+                    <button class="tablinks" onClick={() => setChartData("Potassium")}>Potassium: {plant.stats.potassium}</button>
                 </div>
-                <h1>History:</h1>
-                <div className="Chart">
-                    <h2>{chartData} Chart</h2>
+                <h1>{chartData} History:</h1>
+                <div className="Table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Time</th>
+                                <th>Value</th>
+                            </tr>
+                        </thead>
+                        {renderTableValues()}
+                    </table>
                 </div>
             </div>
         </div>

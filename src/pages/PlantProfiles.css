@@ -59,6 +59,38 @@
     background-color: lightgreen;
 }
 
-.Chart {
-    text-align: center;
+.Table-container {
+    height: 40%;
+    overflow-y: auto;
+    margin-bottom: 50px;
+    gap: 10px;
 }
+
+table {
+    border-collapse: collapse;
+    width:80%;
+    border: 1px solid #ffffff;
+}
+
+thead {
+    position: sticky;
+    top: 0;
+    margin: 0 0 0 0;
+}
+
+th {
+    padding: 8px;
+    font-size: 42px;
+    border: 1px solid #ffffff;
+    background-color: darkgreen;
+    font-size: 1.25vw;
+}
+
+td {
+    text-align: left;
+    padding: 8px;
+    font-size: 32px;
+    border: 1px solid #ffffff;
+    font-size: 1.25vw;
+}
+
