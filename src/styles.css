@@ -39,13 +39,13 @@ p.statistics {
 }
 
 .Profiles {
-  max-width: 800px; /* Adjust the maximum width as needed */
+  width: 800px; /* Adjust the maximum width as needed */
   padding: 15px; /* Adjust the padding as needed */
   border: 2px solid #ccc;
   border-radius: 20px; /* Adjust the border-radius for rounded corners */
   box-shadow: 0 0 15px rgba(0, 0, 0, 0.2); /* Adjust the box-shadow as needed */
   margin-top: 20px;
-  margin-bottom: 50px;
+  margin-bottom: 60px;
 }
 
 .App .Header {
