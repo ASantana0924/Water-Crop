@@ -1,10 +1,9 @@
 # WaterCrop
-The purpose of WaterCrop is to provide automated assistance and statistics for people who are interested in cultivating any sort of plant, such as flowers, fruits, and vegetables. It is especially useful for beginner plant growers and plant enthusiasts who lead busy lives or frequently go on vacation. This repository contains the software for our product.
+The purpose of WaterCrop is to provide automated assistance and statistics for people who are interested in cultivating any sort of plant, such as flowers, fruits, and vegetables. WaterCrop goes beyond a mere demonstration because it is a practical and useful tool that can help people to grow healthier and more beautiful plants. It is also a unique product because it combines plant statistics and remote monitoring into a single package. 
+WaterCrop is a device with an accompanying web application which allows users to create a profile and pair it to the device. Within the web app, the user can add various plants to their profile and view a detailed description, which includes a picture and the ideal environmental conditions. The user can select their plant to view real-time statistics of soil moisture, soil PH, water level, and temperature. Additionally, the user has access to the full plant history for each parameter, which is displayed as a chart. This repository contains the software for our product.
 
 ## Completed Work
 So far, we have developed a simple React application with Home, Plant Profiles, and Stats pages. The Stats page fetches JSON data from "http://localhost:8000/data" every 0.5 seconds, and it continuously updates the waterLevel and moistureLevel data from the server.
-
-We have also successfully integrated the Raspberry Pi to ***TODO***
 
 ## Architecture
 ### /public
