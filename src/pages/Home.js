@@ -1,38 +1,47 @@
-import React, { useState, useEffect } from 'react';
-import SearchBar from "./SearchBar";
-import { useNavigate } from 'react-router-dom';
+// Home.js
+// Bug: new plant appears when the page is refreshed
+import React, { useState, useEffect , useRef} from 'react';
+import { useNavigate , useLocation } from 'react-router-dom';
 import '../styles.css';
 
 export default function Home() {
-  let navigate = useNavigate();
+  const navigate = useNavigate();
   const [plantProfiles, setPlantProfiles] = useState(() => JSON.parse(localStorage.getItem('plantProfiles')) || []);
-  const [plantEntries, setPlantEntries] = useState([]);
-  const [isSearchVisible, setSearchVisibility] = useState(false);
+  const { state } = useLocation();
+  const [formData, setFormData] = useState({});
+  const [isNewPlant, setIsNewPlant] = useState(true);
+  const isMounted = useRef(false); 
 
   useEffect(() => {
-    fetchPlantEntries();
-  }, []);
+    if (state && state.data) {
+      setFormData(state.data);
+    }
+  }, [state]);
   
   useEffect(() => {
-    localStorage.setItem('plantProfiles', JSON.stringify(plantProfiles));
+    if (isMounted.current) {
+      console.log("plant profiles", plantProfiles);
+      localStorage.setItem('plantProfiles', JSON.stringify(plantProfiles));
+    } else {
+      isMounted.current = true;
+    }
   }, [plantProfiles]);
 
-  const fetchPlantEntries = async () => {
-    try {
-      const response = await fetch('./plantProfiles.json');
-      const data = await response.json();
-      setPlantEntries(data);
-    } catch (error) {
-      console.error('Error fetching plant entries:', error);
+  useEffect(() => {
+    console.log("Form Data:", formData);
+    if (Object.keys(formData).length !== 0 && isNewPlant === true) {
+      if(plantProfiles.length < 3) {
+        setPlantProfiles(prevPlantProfiles => [...prevPlantProfiles, formData]);
+      } else {
+        alert('Maximum of 3 plants allowed.');
+      }
+      setIsNewPlant(false);
     }
-  };
+  }, [formData]);
 
-  const handleAddPlant = (plantIndex) => {
-    if (plantProfiles.length < 3) {
-      setPlantProfiles((prevProfiles) => [...prevProfiles, plantEntries.at(plantIndex)]);
-    } else {
-      alert('Maximum of 3 plants allowed.');
-    }
+  const handleAddPlant = () => {
+    const dynamicValue = 'new';
+    navigate(`/add-plant/${dynamicValue}`);
   };
 
   const handleEditPlant = (plantIndex) => {
@@ -49,10 +58,6 @@ export default function Home() {
     navigate(path);
   };
 
-  const toggleSearchVisibility = () => {
-    setSearchVisibility(!isSearchVisible);
-  }
-
   return (
     <div className="App">
       <h1 className="Header">Welcome to WaterCrop!</h1>
@@ -60,15 +65,12 @@ export default function Home() {
         This page shows plants connected to your profile, along with options to manage them.
       </p>
       <div className="ButtonContainer">
-        <button onClick={toggleSearchVisibility}>Add Plant</button>
+        <button onClick={handleAddPlant}>Add Plant</button>
       </div>
-      {isSearchVisible && (
-        <SearchBar data={plantEntries} onPlantSelect={handleAddPlant}/>
-      )}
       <div className="CenterContainer">
         {plantProfiles.map((plant, index) => (
-          <div className="Profiles" key={plant.id}>
-            <div id="Plant" onClick={() => handleStatsPlant(index)}>
+          <div className="Profiles" key={index}>
+            <div id="Plant">
               <p className="Name">{plant.name}</p>
               <img
                 src={plant.imageLink}

@@ -8,6 +8,7 @@ import PlantProfiles from "./pages/PlantProfiles";
 import Stats from "./pages/Stats";
 import SignUp from "./pages/SignUp";
 import Login from "./pages/Login";
+import AddPlant from "./pages/AddPlant.js"
 
 export default function App() {
   return (
@@ -67,6 +68,7 @@ function AppContent() {
           updateHistory={updateHistory}
           />} />
         <Route path="/stats" element={<Stats />} />
+        <Route path="/add-plant/:dynamicValue" element={<AddPlant />} />
       </Routes>
     </>
   );
