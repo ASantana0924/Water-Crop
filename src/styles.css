@@ -1,12 +1,19 @@
+body {
+  margin: 0;
+  padding: 0;
+}
+
 .App {
   font-family: sans-serif;
   text-align: center;
-  border: 40px solid green;
+  border: 10px solid white; /* Changed to white border */
   padding: 20px;
   min-height: 100vh; /* Set minimum height to cover the entire viewport height */
   display: flex;
   flex-direction: column;
   justify-content: center;
+  background-color: rgb(77, 129, 74); /* Set the background color to green */
+  border-radius: 170px; /* Adds rounded corners to the border */
 }
 
 p.statistics {
@@ -39,13 +46,14 @@ p.statistics {
 }
 
 .Profiles {
-  max-width: 800px; /* Adjust the maximum width as needed */
+  width: 800px; /* Adjust the maximum width as needed */
   padding: 15px; /* Adjust the padding as needed */
   border: 2px solid #ccc;
   border-radius: 20px; /* Adjust the border-radius for rounded corners */
   box-shadow: 0 0 15px rgba(0, 0, 0, 0.2); /* Adjust the box-shadow as needed */
   margin-top: 20px;
-  margin-bottom: 50px;
+  margin-bottom: 60px;
+  background-color: white; /* Sets the background color to white */
 }
 
 .App .Header {
@@ -89,9 +97,9 @@ p.statistics {
 .login-container {
   font-family: sans-serif;
   text-align: center;
-  border: 40px solid green;
+  background-color: #9cc599; /* Set the background color to light green */
   padding: 20px;
-  min-height: 100vh; /* Set minimum height to cover the entire viewport height */
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
 }
@@ -99,9 +107,45 @@ p.statistics {
 .sign-up-container {
   font-family: sans-serif;
   text-align: center;
-  border: 40px solid green;
+  background-color: #9cc599; /* Set the background color to light green */
   padding: 20px;
-  min-height: 100vh; /* Set minimum height to cover the entire viewport height */
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
+}
+
+.forgot-pass-container {
+  font-family: sans-serif;
+  text-align: center;
+  background-color: #9cc599; /* Set the background color to light green */
+  padding: 20px;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* styles.css */
+.custom-modal {
+  display: block;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+}
+
+.modal-content {
+  text-align: center;
+}
+
+.close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 18px;
+  cursor: pointer;
 }
