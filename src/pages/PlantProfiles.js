@@ -1,4 +1,4 @@
-import "../styles.css";
+//import "../styles.css";
 import React, { useState, useEffect } from "react";
 import "./PlantProfiles.css";
 import { RTDBRef } from "../firebase/firebase";
@@ -8,7 +8,7 @@ import { useNavigate } from 'react-router-dom';
 
 export default function PlantProfiles({ plant, updatePlant, history, updateHistory}) {
     let navigate = useNavigate();
-    
+
     // Initialize useState variables for plant profile page
     const [chartData, setChartData] = useState("Moisture");
 
@@ -49,9 +49,7 @@ export default function PlantProfiles({ plant, updatePlant, history, updateHisto
                     moisture: moistureString,
                     waterLevel: waterLevelString,
                     temp: snapshot.val().temperature,
-                    nitrogen: snapshot.val().nitrogen,
-                    phosphorus: snapshot.val().phosphorus,
-                    potassium: snapshot.val().potassium
+                    pH: snapshot.val().pH,
                 }
             }));
 
@@ -59,7 +57,8 @@ export default function PlantProfiles({ plant, updatePlant, history, updateHisto
                 time: snapshot.val().time, 
                 moistureString: moistureString,
                 moistureNum: snapshot.val().moisture,
-                waterLevel: waterLevelString
+                waterLevel: waterLevelString,
+                temp: snapshot.val().temperature
             };
 
             updateHistory(prevHistory => [data, ...prevHistory])
@@ -96,6 +95,18 @@ export default function PlantProfiles({ plant, updatePlant, history, updateHisto
                 </tbody>
             );
         }
+        else if (chartData == "Temperature") {
+            return(
+                <tbody>
+                    {history.map((entry)=>
+                        <tr>
+                            <td>{entry.time}</td>
+                            <td>{entry.temp}</td>
+                        </tr>
+                    )}
+                </tbody>
+            );
+        }
         else {
             return(
                 <tbody>
@@ -115,7 +126,7 @@ export default function PlantProfiles({ plant, updatePlant, history, updateHisto
             <div className="PlantInfo">
                 <div className="PlantText">
                     <h1>Plant {plant.id}: {plant.name} </h1>
-                    <h2>Description: {plant.summary} </h2>
+                    <p>Description: {plant.summary} </p>
                     <div className="HomeButton">
                         <button onClick={() => returnHome()}>Home</button>
                     </div>
@@ -130,12 +141,10 @@ export default function PlantProfiles({ plant, updatePlant, history, updateHisto
                 <div class="tabs">
                     <button class="tablinks" onClick={() => setChartData("Moisture")} autofocus>Moisture: {plant.stats.moisture}</button>
                     <button class="tablinks" onClick={() => setChartData("Water Level")} >Water Level: {plant.stats.waterLevel}</button>
-                    <button class="tablinks" onClick={() => setChartData("Temperature")}>Temp: {plant.stats.temp}</button>
                 </div>
                 <div class="tabs">
-                    <button class="tablinks" onClick={() => setChartData("Nitrogen")}>Nitrogen: {plant.stats.nitrogen}</button>
-                    <button class="tablinks" onClick={() => setChartData("Phosphorus")}>Phosphorus: {plant.stats.phosphorus}</button>
-                    <button class="tablinks" onClick={() => setChartData("Potassium")}>Potassium: {plant.stats.potassium}</button>
+                    <button class="tablinks" onClick={() => setChartData("Temperature")}>Temp: {plant.stats.temp} °F</button>
+                    <button class="tablinks" onClick={() => setChartData("pH")}>pH: {plant.stats.pH}</button>
                 </div>
                 <h1>{chartData} History:</h1>
                 <div className="Table-container">

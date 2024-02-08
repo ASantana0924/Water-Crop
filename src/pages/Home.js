@@ -3,8 +3,9 @@ import SearchBar from "./SearchBar";
 import { useNavigate } from 'react-router-dom';
 import '../styles.css';
 
-export default function Home() {
+export default function Home( {updatePlant} ) {
   let navigate = useNavigate();
+  
   const [plantProfiles, setPlantProfiles] = useState(() => JSON.parse(localStorage.getItem('plantProfiles')) || []);
   const [plantEntries, setPlantEntries] = useState([]);
   const [isSearchVisible, setSearchVisibility] = useState(false);
@@ -44,7 +45,17 @@ export default function Home() {
     setPlantProfiles(updatedPlantProfiles);
   };
 
-  const handleStatsPlant = (plantIndex) => {
+  const handleStatsPlant = (plant, plantIndex) => {
+    console.log(plant);
+
+    updatePlant(prevPlant => ({
+      id: plantIndex,
+      name: plant.name,
+      summary: plant.summary,
+      imageLink: plant.imageLink,
+      ...prevPlant
+    }));
+
     let path = '/plant-profiles';
     navigate(path);
   };
@@ -68,7 +79,7 @@ export default function Home() {
       <div className="CenterContainer">
         {plantProfiles.map((plant, index) => (
           <div className="Profiles" key={plant.id}>
-            <div id="Plant" onClick={() => handleStatsPlant(index)}>
+            <div id="Plant" onClick={() => handleStatsPlant(plant, index)}>
               <p className="Name">{plant.name}</p>
               <img
                 src={plant.imageLink}
@@ -81,7 +92,7 @@ export default function Home() {
               <button onClick={() => handleEditPlant(index)}>Edit</button>
               <button onClick={() => handleDeletePlant(index)}>Delete</button>
             </div>
-            <button onClick={() => handleStatsPlant(index)}>View Statistics!</button>
+            <button onClick={() => handleStatsPlant(plant, index)}>View Statistics!</button>
           </div>
         ))}
       </div>
