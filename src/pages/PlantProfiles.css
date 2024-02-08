@@ -2,7 +2,7 @@
 .PlantProfile {
     position: fixed;
     margin: auto;
-    width: 100vw;
+    width: 97vw;
     font-weight: bold;
     text-align: center;
     height: 90vh;
@@ -43,7 +43,7 @@
 }
 
 .StatsTabs {
-    height: 70%;
+    height: 80%;
 }
 
 .tabs {
