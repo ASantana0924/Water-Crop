@@ -8,6 +8,7 @@ import Stats from "./pages/Stats";
 import SignUp from "./pages/SignUp";
 import Login from "./pages/Login";
 import AddPlant from "./pages/AddPlant.js"
+import Bluetooth from "./pages/Bluetooth";
 
 export default function App() {
   return (
@@ -22,16 +23,14 @@ function AppContent() {
   // Initialize plant object
   const [plant, setPlant] = useState({
     id: 1,
-    name: 'Sunflower',
-    summary: 'This is information about sunflowers.',
-    imageLink: 'https://t4.ftcdn.net/jpg/02/25/12/33/360_F_225123378_iAHgUsACXnqBQIBjXNeBrC71RNEPgqUF.jpg',
+    name: 'Hibiscus',
+    summary: "Colorful flowering plant often associated with tropical regions.",
+    imageLink:  "https://ih1.redbubble.net/image.3463415596.8180/raf,360x360,075,t,fafafa:ca443f4786.jpg",
     stats: {
       moisture: 'Loading...',
       waterLevel: 'Loading...',
       temp: 'Loading...',
-      nitrogen: 'Loading...',
-      phosphorus: 'Loading...',
-      potassium: 'Loading...',
+      pH: 'Loading...',
     }
   });
 
@@ -52,7 +51,7 @@ function AppContent() {
       <Routes>
         <Route path="/sign-up" element={<SignUp />} />
         <Route path="/" element={<Login />} />
-        <Route path="/home" element={<Home />} />
+        <Route path="/home" element={<Home updatePlant={updatePlant}/>} />
         <Route path="/plant-profiles" element={<PlantProfiles 
           plant={plant} 
           updatePlant={updatePlant} 
@@ -61,6 +60,7 @@ function AppContent() {
           />} />
         <Route path="/stats" element={<Stats />} />
         <Route path="/add-plant/:dynamicValue" element={<AddPlant />} />
+        <Route path="/bluetooth" element={<Bluetooth />}/>
       </Routes>
     </>
   );
