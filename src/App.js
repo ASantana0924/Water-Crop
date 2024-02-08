@@ -7,6 +7,7 @@ import PlantProfiles from "./pages/PlantProfiles";
 import Stats from "./pages/Stats";
 import SignUp from "./pages/SignUp";
 import Login from "./pages/Login";
+import AddPlant from "./pages/AddPlant.js"
 import Bluetooth from "./pages/Bluetooth";
 
 export default function App() {
@@ -65,6 +66,7 @@ function AppContent() {
           updateHistory={updateHistory}
           />} />
         <Route path="/stats" element={<Stats />} />
+        <Route path="/add-plant/:dynamicValue" element={<AddPlant />} />
         <Route path="/bluetooth" element={<Bluetooth />}/>
       </Routes>
     </>

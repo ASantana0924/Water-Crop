@@ -3,6 +3,8 @@ import React, { useState, useEffect } from "react";
 import "./PlantProfiles.css";
 import { RTDBRef } from "../firebase/firebase";
 import { onValue } from "firebase/database";
+import { SemiCircleProgress } from "react-semicircle-progressbar";
+import ProgressBar from "../tools/ProgressBar";
 import { useNavigate } from 'react-router-dom';
 
 
@@ -11,6 +13,11 @@ export default function PlantProfiles({ plant, updatePlant, history, updateHisto
 
     // Initialize useState variables for plant profile page
     const [chartData, setChartData] = useState("Moisture");
+
+    const [moisturePercentage, setMoisturePercentage] = useState(0);
+    const [waterPercentage, setWaterPercentage] = useState(0);
+    const [temperaturePercentage, setTemperaturePercentage] = useState(0);
+    const [PHPercentage, setPHPercentage] = useState(0);
 
     const returnHome = () => {
         let path = '/home';
@@ -60,6 +67,11 @@ export default function PlantProfiles({ plant, updatePlant, history, updateHisto
                 waterLevel: waterLevelString,
                 temp: snapshot.val().temperature
             };
+        
+            setMoisturePercentage(Number(((19000 - snapshot.val().moisture)/19000) * 100).toFixed(1));
+            setWaterPercentage(snapshot.val().water_level * 100);
+            setTemperaturePercentage((snapshot.val().temperature/100) * 100);
+            setPHPercentage(50);
 
             updateHistory(prevHistory => [data, ...prevHistory])
         });
@@ -139,13 +151,20 @@ export default function PlantProfiles({ plant, updatePlant, history, updateHisto
             <div className="StatsTabs">
                 <h1>Live Stats:</h1>
                 <div class="tabs">
+                    Moisture<ProgressBar percentage={moisturePercentage} color={"#90EE90"} text=""/>
+                    Water<ProgressBar percentage={waterPercentage} color={"#90EE90"} text=""/>
+                    Temperature<ProgressBar percentage={temperaturePercentage} color={"#90EE90"} text=" F"/>
+                    PH<ProgressBar percentage={PHPercentage} color={"#90EE90"}/>
+                    {/*
                     <button class="tablinks" onClick={() => setChartData("Moisture")} autofocus>Moisture: {plant.stats.moisture}</button>
                     <button class="tablinks" onClick={() => setChartData("Water Level")} >Water Level: {plant.stats.waterLevel}</button>
+                <button class="tablinks" onClick={() => setChartData("Temperature")}>Temp: {plant.stats.temp}</button>*/}
                 </div>
-                <div class="tabs">
-                    <button class="tablinks" onClick={() => setChartData("Temperature")}>Temp: {plant.stats.temp} °F</button>
-                    <button class="tablinks" onClick={() => setChartData("pH")}>pH: {plant.stats.pH}</button>
-                </div>
+                {/*<div class="tabs">
+                    <button class="tablinks" onClick={() => setChartData("Nitrogen")}>Nitrogen: {plant.stats.nitrogen}</button>
+                    <button class="tablinks" onClick={() => setChartData("Phosphorus")}>Phosphorus: {plant.stats.phosphorus}</button>
+                    <button class="tablinks" onClick={() => setChartData("Potassium")}>Potassium: {plant.stats.potassium}</button>
+            </div>*/}
                 <h1>{chartData} History:</h1>
                 <div className="Table-container">
                     <table>

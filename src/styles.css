@@ -1,12 +1,14 @@
 .App {
   font-family: sans-serif;
   text-align: center;
-  border: 40px solid green;
+  border: 10px solid white; /* Changed to white border */
   padding: 20px;
-  min-height: 100vh; /* Set minimum height to cover the entire viewport height */
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
+  background-color: rgb(77, 129, 74); /* Set the background color to green */
+  border-radius: 170px; /* Adds rounded corners to the border */
 }
 
 p.statistics {
@@ -46,6 +48,7 @@ p.statistics {
   box-shadow: 0 0 15px rgba(0, 0, 0, 0.2); /* Adjust the box-shadow as needed */
   margin-top: 20px;
   margin-bottom: 60px;
+  background-color: white; /* Sets the background color to white */
 }
 
 .App .Header {
