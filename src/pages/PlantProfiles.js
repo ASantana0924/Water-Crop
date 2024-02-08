@@ -102,15 +102,17 @@ export default function PlantProfiles({ plant, updatePlant, history, updateHisto
 
 
     // Render plant profile page
+    // ** After <h2> - was giving error 
+    //<div className="HomeButton">
+    //  <button onClick={() => returnHome()}>Home</button>
+    //</div>
     return (
         <div className="PlantProfile">
             <div className="PlantInfo">
                 <div className="PlantText">
                     <h1>Plant {plant.id}: {plant.name} </h1>
                     <h2>Description: {plant.summary} </h2>
-                    <div className="HomeButton">
-                        <button onClick={() => returnHome()}>Home</button>
-                    </div>
+                    
                 </div>
                 <div className="PlantImage">
                     <img src={plant.imageLink} alt="plant"/>

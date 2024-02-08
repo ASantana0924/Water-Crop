@@ -8,6 +8,7 @@ import PlantProfiles from "./pages/PlantProfiles";
 import Stats from "./pages/Stats";
 import SignUp from "./pages/SignUp";
 import Login from "./pages/Login";
+import ForgotPass from "./pages/ForgotPass";
 
 export default function App() {
   return (
@@ -59,6 +60,7 @@ function AppContent() {
       <Routes>
         <Route path="/sign-up" element={<SignUp />} />
         <Route path="/" element={<Login />} />
+        <Route path="/forgot-password" element={<ForgotPass />} />
         <Route path="/home" element={<Home />} />
         <Route path="/plant-profiles" element={<PlantProfiles 
           plant={plant} 
