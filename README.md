@@ -34,6 +34,11 @@ git clone https://github.com/ASantana0924/Water-Crop.git
 cd Water-Crop
 npm install
 ```
+Run these commands for Tailwind CSS features:
+cd Water-Crop
+npm install -D tailwindcss
+npx tailwindcss init
+```
 Run these commands to start socket communication with the Raspberry Pi:
 ```
 cd socket
