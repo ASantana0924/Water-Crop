@@ -1,13 +1,16 @@
-import "../styles.css";
+//import "../styles.css";
 import React, { useState, useEffect } from "react";
 import "./PlantProfiles.css";
 import { RTDBRef } from "../firebase/firebase";
 import { onValue } from "firebase/database";
 import { SemiCircleProgress } from "react-semicircle-progressbar";
 import ProgressBar from "../tools/ProgressBar";
+import { useNavigate } from 'react-router-dom';
 
 
 export default function PlantProfiles({ plant, updatePlant, history, updateHistory}) {
+    let navigate = useNavigate();
+
     // Initialize useState variables for plant profile page
     const [chartData, setChartData] = useState("Moisture");
 
@@ -15,6 +18,11 @@ export default function PlantProfiles({ plant, updatePlant, history, updateHisto
     const [waterPercentage, setWaterPercentage] = useState(0);
     const [temperaturePercentage, setTemperaturePercentage] = useState(0);
     const [PHPercentage, setPHPercentage] = useState(0);
+
+    const returnHome = () => {
+        let path = '/home';
+        navigate(path);
+    }
 
     useEffect(() => {
         // Listen for changes in the database
@@ -48,9 +56,7 @@ export default function PlantProfiles({ plant, updatePlant, history, updateHisto
                     moisture: moistureString,
                     waterLevel: waterLevelString,
                     temp: snapshot.val().temperature,
-                    nitrogen: snapshot.val().nitrogen,
-                    phosphorus: snapshot.val().phosphorus,
-                    potassium: snapshot.val().potassium
+                    pH: snapshot.val().pH,
                 }
             }));
 
@@ -58,7 +64,8 @@ export default function PlantProfiles({ plant, updatePlant, history, updateHisto
                 time: snapshot.val().time, 
                 moistureString: moistureString,
                 moistureNum: snapshot.val().moisture,
-                waterLevel: waterLevelString
+                waterLevel: waterLevelString,
+                temp: snapshot.val().temperature
             };
         
             setMoisturePercentage(Number(((19000 - snapshot.val().moisture)/19000) * 100).toFixed(1));
@@ -100,6 +107,18 @@ export default function PlantProfiles({ plant, updatePlant, history, updateHisto
                 </tbody>
             );
         }
+        else if (chartData == "Temperature") {
+            return(
+                <tbody>
+                    {history.map((entry)=>
+                        <tr>
+                            <td>{entry.time}</td>
+                            <td>{entry.temp}</td>
+                        </tr>
+                    )}
+                </tbody>
+            );
+        }
         else {
             return(
                 <tbody>
@@ -119,10 +138,10 @@ export default function PlantProfiles({ plant, updatePlant, history, updateHisto
             <div className="PlantInfo">
                 <div className="PlantText">
                     <h1>Plant {plant.id}: {plant.name} </h1>
-                    <h2>Description: {plant.summary} </h2>
-                    {/*<div className="HomeButton">
-                            <button onClick={() => returnHome()}>Home</button>
-                        </div>*/}
+                    <p>Description: {plant.summary} </p>
+                    <div className="HomeButton">
+                        <button onClick={() => returnHome()}>Home</button>
+                    </div>
                 </div>
                 <div className="PlantImage">
                     <img src={plant.imageLink} alt="plant"/>
