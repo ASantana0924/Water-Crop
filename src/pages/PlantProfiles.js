@@ -5,11 +5,16 @@ import { RTDBRef } from "../firebase/firebase";
 import { onValue } from "firebase/database";
 import { SemiCircleProgress } from "react-semicircle-progressbar";
 import ProgressBar from "../tools/ProgressBar";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 
-export default function PlantProfiles({ plant, updatePlant, history, updateHistory}) {
+export default function PlantProfiles() {
     let navigate = useNavigate();
+    const params = useParams();
+
+    const [plantProfiles, setPlantProfiles] = useState(() => JSON.parse(localStorage.getItem('plantProfiles')) || []);
+    //setTest(test.filter((index) => index === params.id))
+    console.log(plantProfiles[params.id].name);
 
     // Initialize useState variables for plant profile page
     const [chartData, setChartData] = useState("Moisture");
@@ -49,16 +54,16 @@ export default function PlantProfiles({ plant, updatePlant, history, updateHisto
                 moistureString = "In Water";
             }
 
-            updatePlant(prevPlant => ({
-                ...prevPlant,
-                stats: {
-                    ...prevPlant.stats,
-                    moisture: moistureString,
-                    waterLevel: waterLevelString,
-                    temp: snapshot.val().temperature,
-                    pH: snapshot.val().pH,
-                }
-            }));
+            // updatePlant(prevPlant => ({
+            //     ...prevPlant,
+            //     stats: {
+            //         ...prevPlant.stats,
+            //         moisture: moistureString,
+            //         waterLevel: waterLevelString,
+            //         temp: snapshot.val().temperature,
+            //         pH: snapshot.val().pH,
+            //     }
+            // }));
 
             const data = {
                 time: snapshot.val().time, 
@@ -73,7 +78,7 @@ export default function PlantProfiles({ plant, updatePlant, history, updateHisto
             setTemperaturePercentage((snapshot.val().temperature/100) * 100);
             setPHPercentage(50);
 
-            updateHistory(prevHistory => [data, ...prevHistory])
+            // updateHistory(prevHistory => [data, ...prevHistory])
         });
  
         // Clean up the listener when the component unmounts
@@ -82,54 +87,54 @@ export default function PlantProfiles({ plant, updatePlant, history, updateHisto
         };
     }, []);
 
-    function renderTableValues() {
-        if (chartData == "Moisture") {
-            return(
-                <tbody>
-                    {history.map((entry)=>
-                        <tr>
-                            <td>{entry.time}</td>
-                            <td>{entry.moistureString} - {entry.moistureNum}</td>
-                        </tr>
-                    )}
-                </tbody>
-            );
-        }
-        else if (chartData == "Water Level") {
-            return(
-                <tbody>
-                    {history.map((entry)=>
-                        <tr>
-                            <td>{entry.time}</td>
-                            <td>{entry.waterLevel}</td>
-                        </tr>
-                    )}
-                </tbody>
-            );
-        }
-        else if (chartData == "Temperature") {
-            return(
-                <tbody>
-                    {history.map((entry)=>
-                        <tr>
-                            <td>{entry.time}</td>
-                            <td>{entry.temp}</td>
-                        </tr>
-                    )}
-                </tbody>
-            );
-        }
-        else {
-            return(
-                <tbody>
-                    <tr>
-                        <td>No Data Yet</td>
-                        <td>No Data Yet</td>
-                    </tr>
-                </tbody>
-            )
-        }
-    }
+    // function renderTableValues() {
+    //     if (chartData == "Moisture") {
+    //         return(
+    //             <tbody>
+    //                 {history.map((entry)=>
+    //                     <tr>
+    //                         <td>{entry.time}</td>
+    //                         <td>{entry.moistureString} - {entry.moistureNum}</td>
+    //                     </tr>
+    //                 )}
+    //             </tbody>
+    //         );
+    //     }
+    //     else if (chartData == "Water Level") {
+    //         return(
+    //             <tbody>
+    //                 {history.map((entry)=>
+    //                     <tr>
+    //                         <td>{entry.time}</td>
+    //                         <td>{entry.waterLevel}</td>
+    //                     </tr>
+    //                 )}
+    //             </tbody>
+    //         );
+    //     }
+    //     else if (chartData == "Temperature") {
+    //         return(
+    //             <tbody>
+    //                 {history.map((entry)=>
+    //                     <tr>
+    //                         <td>{entry.time}</td>
+    //                         <td>{entry.temp}</td>
+    //                     </tr>
+    //                 )}
+    //             </tbody>
+    //         );
+    //     }
+    //     else {
+    //         return(
+    //             <tbody>
+    //                 <tr>
+    //                     <td>No Data Yet</td>
+    //                     <td>No Data Yet</td>
+    //                 </tr>
+    //             </tbody>
+    //         )
+    //     }
+    // }
 
 
     // Render plant profile page
@@ -141,14 +146,14 @@ export default function PlantProfiles({ plant, updatePlant, history, updateHisto
         <div className="PlantProfile">
             <div className="PlantInfo">
                 <div className="PlantText">
-                    <h1>Plant {plant.id}: {plant.name} </h1>
-                    <p>Description: {plant.summary} </p>
+                    <h1>Plant {Number(params.id) + 1}: {plantProfiles[params.id].name} </h1>
+                    <p>Description: {plantProfiles[params.id].summary} </p>
                     <div className="HomeButton">
                         <button onClick={() => returnHome()}>Home</button>
                     </div>
                 </div>
                 <div className="PlantImage">
-                    <img src={plant.imageLink} alt="plant"/>
+                    <img src={plantProfiles[params.id].imageLink} alt="plant"/>
                 </div>
             </div>
 
@@ -159,17 +164,8 @@ export default function PlantProfiles({ plant, updatePlant, history, updateHisto
                     Water<ProgressBar percentage={waterPercentage} color={"#90EE90"} text=""/>
                     Temperature<ProgressBar percentage={temperaturePercentage} color={"#90EE90"} text=" F"/>
                     PH<ProgressBar percentage={PHPercentage} color={"#90EE90"}/>
-                    {/*
-                    <button class="tablinks" onClick={() => setChartData("Moisture")} autofocus>Moisture: {plant.stats.moisture}</button>
-                    <button class="tablinks" onClick={() => setChartData("Water Level")} >Water Level: {plant.stats.waterLevel}</button>
-                <button class="tablinks" onClick={() => setChartData("Temperature")}>Temp: {plant.stats.temp}</button>*/}
                 </div>
-                {/*<div class="tabs">
-                    <button class="tablinks" onClick={() => setChartData("Nitrogen")}>Nitrogen: {plant.stats.nitrogen}</button>
-                    <button class="tablinks" onClick={() => setChartData("Phosphorus")}>Phosphorus: {plant.stats.phosphorus}</button>
-                    <button class="tablinks" onClick={() => setChartData("Potassium")}>Potassium: {plant.stats.potassium}</button>
-            </div>*/}
-                <h1>{chartData} History:</h1>
+                {/* <h1>{chartData} History:</h1>
                 <div className="Table-container">
                     <table>
                         <thead>
@@ -180,7 +176,7 @@ export default function PlantProfiles({ plant, updatePlant, history, updateHisto
                         </thead>
                         {renderTableValues()}
                     </table>
-                </div>
+                </div> */}
             </div>
         </div>
     );

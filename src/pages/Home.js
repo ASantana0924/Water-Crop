@@ -4,7 +4,7 @@ import React, { useState, useEffect , useRef} from 'react';
 import { useNavigate , useLocation } from 'react-router-dom';
 import '../styles.css';
 
-export default function Home( {updatePlant} ) {
+export default function Home( {selectedPlant, updatePlant} ) {
   let navigate = useNavigate();
   
   const [plantProfiles, setPlantProfiles] = useState(() => JSON.parse(localStorage.getItem('plantProfiles')) || []);
@@ -41,8 +41,9 @@ export default function Home( {updatePlant} ) {
   }, [formData]);
 
   const handleAddPlant = () => {
-    const dynamicValue = 'new';
-    navigate(`/add-plant/${dynamicValue}`);
+    // const dynamicValue = 'new';
+    // navigate(`/add-plant/${dynamicValue}`);
+    navigate('/Bluetooth');
   };
 
   const handleEditPlant = (plantIndex) => {
@@ -55,17 +56,11 @@ export default function Home( {updatePlant} ) {
   };
 
   const handleStatsPlant = (plant, plantIndex) => {
-    console.log(plant);
+    // console.log(plant);
+    console.log(plantIndex);
+    console.log(selectedPlant);
 
-    updatePlant(prevPlant => ({
-      id: plantIndex,
-      name: plant.name,
-      summary: plant.summary,
-      imageLink: plant.imageLink,
-      ...prevPlant
-    }));
-
-    let path = '/plant-profiles';
+    let path = '/plant-profiles/' + plantIndex;
     navigate(path);
   };
 

@@ -53,13 +53,8 @@ function AppContent() {
         <Route path="/sign-up" element={<SignUp />} />
         <Route path="/" element={<Login />} />
         <Route path="/forgot-password" element={<ForgotPass />} />
-        <Route path="/home" element={<Home updatePlant={updatePlant}/>} />
-        <Route path="/plant-profiles" element={<PlantProfiles 
-          plant={plant} 
-          updatePlant={updatePlant} 
-          history={history} 
-          updateHistory={updateHistory}
-          />} />
+        <Route path="/home" element={<Home/>} />
+        <Route path="/plant-profiles/:id" element={<PlantProfiles/>} />
         <Route path="/stats" element={<Stats />} />
         <Route path="/add-plant/:dynamicValue" element={<AddPlant />} />
         <Route path="/bluetooth" element={<Bluetooth />}/>

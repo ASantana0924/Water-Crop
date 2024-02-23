@@ -1,17 +1,29 @@
 import React, { useState } from "react";
+import { useNavigate } from 'react-router-dom';
 
 export default function Bluetooth () {
+    let navigate = useNavigate();
+
+    // const { spawn } = require('child_process');
+
     const [wifiInfo, setWifiInfo] = useState({
+        id: "0000",
         name: "",
         password: ""
     });
     const [connectionResult, setConnectionResult] = useState();
+
+    // navigate back to the home page
+    const handleGoBack = () => {
+        navigate('/home');
+    };
 
 
     const handleSubmit = (event) => {
         event.preventDefault();
 
         setWifiInfo({
+            id: "0000",
             name: event.target.wifiName.value, 
             password: event.target.wifiPassword.value
         });
@@ -27,18 +39,31 @@ export default function Bluetooth () {
         }
     }
 
+    // Bug: After redirect, page is submitted/refreshed twice. In order to go back to wifi selection, must click back arrow twice
     function userFeedback() {
         if (connectionResult == "paired") {
+            const dynamicValue = 'new';
+            //TODO: add function to run Bluetooth server python script
+            // runBluetoothServer();
+            setTimeout(() => {navigate(`/add-plant/${dynamicValue}`);}, 2000);
             return (
-                <h2>Connection successful</h2>
+                <h2>Connection Successful! <br></br>
+                Redirecting to Plant Selection Page...</h2>
             );
         }
         else if (connectionResult == "failed") {
             return (
-                <h2>Connection unsuccessful</h2>
+                <h2>Connection Unsuccessful <br></br>
+                Try Again</h2>
             );
         }
     }
+
+    // function runBluetoothServer() {
+    //     const path = "../../socket/BluetoothServer.py"
+    //     let args = wifiInfo.id + " " + wifiInfo.name + " " + wifiInfo.password;
+    //     const bluetoothServer = spawn('python', [path].concat(args));
+    // }
 
     return (
         <div className="PairingBox">
@@ -59,6 +84,7 @@ export default function Bluetooth () {
                         <br></br>
                         <button type="submit">Submit</button>
                     </form>
+                    <button onClick={handleGoBack}>Cancel</button>
                 </li>
             </ol>
             {userFeedback()}
