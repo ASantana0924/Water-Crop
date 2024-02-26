@@ -1,11 +1,11 @@
 //import "../styles.css";
 import React, { useState, useEffect } from "react";
-import "./PlantProfiles.css";
+//import "./PlantProfiles.css";
 import { RTDBRef } from "../firebase/firebase";
 import { onValue } from "firebase/database";
-import { SemiCircleProgress } from "react-semicircle-progressbar";
 import ProgressBar from "../tools/ProgressBar";
 import { useNavigate } from 'react-router-dom';
+import Chart from "../tools/Chart";
 
 
 export default function PlantProfiles({ plant, updatePlant, history, updateHistory}) {
@@ -152,6 +152,10 @@ export default function PlantProfiles({ plant, updatePlant, history, updateHisto
                 </div>
             </div>
 
+            <div className="chart">
+                    <Chart />
+            </div>
+
             <div className="StatsTabs">
                 <h1>Live Stats:</h1>
                 <div class="tabs">
@@ -162,15 +166,15 @@ export default function PlantProfiles({ plant, updatePlant, history, updateHisto
                     {/*
                     <button class="tablinks" onClick={() => setChartData("Moisture")} autofocus>Moisture: {plant.stats.moisture}</button>
                     <button class="tablinks" onClick={() => setChartData("Water Level")} >Water Level: {plant.stats.waterLevel}</button>
-                <button class="tablinks" onClick={() => setChartData("Temperature")}>Temp: {plant.stats.temp}</button>*/}
+                    <button class="tablinks" onClick={() => setChartData("Temperature")}>Temp: {plant.stats.temp}</button>*/}
                 </div>
                 {/*<div class="tabs">
                     <button class="tablinks" onClick={() => setChartData("Nitrogen")}>Nitrogen: {plant.stats.nitrogen}</button>
                     <button class="tablinks" onClick={() => setChartData("Phosphorus")}>Phosphorus: {plant.stats.phosphorus}</button>
                     <button class="tablinks" onClick={() => setChartData("Potassium")}>Potassium: {plant.stats.potassium}</button>
-            </div>*/}
-                <h1>{chartData} History:</h1>
-                <div className="Table-container">
+                </div>*/}
+                
+                {/*<div className="Table-container">
                     <table>
                         <thead>
                             <tr>
@@ -180,7 +184,7 @@ export default function PlantProfiles({ plant, updatePlant, history, updateHisto
                         </thead>
                         {renderTableValues()}
                     </table>
-                </div>
+                </div>*/}
             </div>
         </div>
     );
