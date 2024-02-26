@@ -59,5 +59,10 @@ cd Water-Crop
 npm install react-router-dom
 npm install antd
 npm install firebase
+npm install react-semicircle-progressbar
+npm install chart.js
+npm install --save chart.js react-chartjs-2
+npm install formik
+npm install react-bootstrap bootstrap
 npm start
 ```
