@@ -1,17 +1,22 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from 'react-router-dom';
+import { auth } from "../firebase/firebase";
 
 export default function Bluetooth () {
     let navigate = useNavigate();
-
-    // const { spawn } = require('child_process');
-
+    const [userUID, setUserUID] = useState();
     const [wifiInfo, setWifiInfo] = useState({
-        id: "0000",
+        id: "",
         name: "",
         password: ""
     });
     const [connectionResult, setConnectionResult] = useState();
+
+    useEffect(() => {
+        if (auth.currentUser !== null) {
+            setUserUID(auth.currentUser.uid);
+        }
+    }, [auth.currentUser]);
 
     // navigate back to the home page
     const handleGoBack = () => {
@@ -21,9 +26,9 @@ export default function Bluetooth () {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-
+        
         setWifiInfo({
-            id: "0000",
+            id: userUID,
             name: event.target.wifiName.value, 
             password: event.target.wifiPassword.value
         });
@@ -32,6 +37,8 @@ export default function Bluetooth () {
 
         //TODO: Figure out how to establish socket connection upon submission, maybe using python
         if (wifiInfo.name != "" && wifiInfo.password != "") {
+            const wifiInfoString = userUID + " " + wifiInfo.name + " " + wifiInfo.password;
+            console.log(wifiInfoString);
             setConnectionResult("paired");
         }
         else {
@@ -43,8 +50,8 @@ export default function Bluetooth () {
     function userFeedback() {
         if (connectionResult == "paired") {
             const dynamicValue = 'new';
-            //TODO: add function to run Bluetooth server python script
-            // runBluetoothServer();
+            // Write wifi info to json file that will be read by the bluetooth server that is already running.
+
             setTimeout(() => {navigate(`/add-plant/${dynamicValue}`);}, 2000);
             return (
                 <h2>Connection Successful! <br></br>
