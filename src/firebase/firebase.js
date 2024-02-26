@@ -1,8 +1,8 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
-import { getDatabase, ref, onValue } from "firebase/database";
-import { getFirestore, collection, addDoc } from 'firebase/firestore';
+import { getDatabase, ref } from "firebase/database";
+import { getFirestore } from 'firebase/firestore';
 
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -19,8 +19,9 @@ const realtimeConfig = {
   measurementId: "G-JHYJCLSC4Y"
 };
 
-// Initialize realtime database
+// Initialize realtime database and firestore
 const app = initializeApp(realtimeConfig);
 export const auth = getAuth(app);
 export const realtimeDatabase = getDatabase();
 export const RTDBRef = ref(realtimeDatabase, 'Plants/');
+export const firestoreDatabase = getFirestore(app);

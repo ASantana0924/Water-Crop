@@ -1,11 +1,11 @@
 //import "../styles.css";
 import React, { useState, useEffect } from "react";
-import "./PlantProfiles.css";
+//import "./PlantProfiles.css";
 import { RTDBRef } from "../firebase/firebase";
 import { onValue } from "firebase/database";
-import { SemiCircleProgress } from "react-semicircle-progressbar";
 import ProgressBar from "../tools/ProgressBar";
 import { useNavigate, useParams } from 'react-router-dom';
+import Chart from "../tools/Chart";
 
 
 export default function PlantProfiles() {
@@ -155,6 +155,10 @@ export default function PlantProfiles() {
                 <div className="PlantImage">
                     <img src={plantProfiles[params.id].imageLink} alt="plant"/>
                 </div>
+            </div>
+
+            <div className="chart">
+                    <Chart />
             </div>
 
             <div className="StatsTabs">

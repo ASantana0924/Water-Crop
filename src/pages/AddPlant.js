@@ -53,54 +53,44 @@ const AddPlant = () => {
   };
 
   return (
-    <Container>
-      <h1>Add New Plant</h1>
-      <SearchBar data={plantEntries} onPlantSelect={handleAddPlant}/>
-      <Formik
-        initialValues={formData}
-        onSubmit={handleSubmit}
-      >
-        <Form onSubmit={handleSubmit}>
-          <Form.Group as={Row} controlId="name">
-            <Form.Label column sm="2">Name:</Form.Label>
-            <Col sm="10">
-              <Form.Control
-                type="text"
-                name="name"
-                value={formData.name}
-                onChange={handleChange}
-              />
-            </Col>
-          </Form.Group>
+    <div className="login-container" style={{ backgroundColor: "#9cc599", minHeight: "100vh", display: "flex", flexDirection: "column", justifyContent: "center" }}>
+      <form onSubmit={handleSubmit} style={{ width: "600px", margin: "auto", padding: "55px", borderRadius: "10px", background: "#fff" }}>
+        <h1 style={{ textAlign: "center", fontSize: "44px", fontWeight: "bold", marginTop: "40px", marginBottom: "40px" }}>WaterCrop</h1>
+        <h2 style={{ marginBottom: "25px", fontSize: "30px" }}>Add New Plant</h2>
+        
+        {/* SearchBar Component */}
+        <SearchBar data={plantEntries} onPlantSelect={handleAddPlant}/>
 
-          <Form.Group as={Row} controlId="summary">
-            <Form.Label column sm="2">Summary:</Form.Label>
-            <Col sm="10">
-              <Form.Control
-                as="textarea"
-                name="summary"
-                value={formData.summary}
-                onChange={handleChange}
-              />
-            </Col>
-          </Form.Group>
+        <Formik initialValues={formData} onSubmit={handleSubmit}>
+          <Form>
+            <Form.Group as={Row} controlId="name">
+              <Form.Label column sm="2">Name:</Form.Label>
+              <Col sm="10">
+                <Form.Control type="text" name="name" value={formData.name} onChange={handleChange} />
+              </Col>
+            </Form.Group>
 
-          <Form.Group as={Row} controlId="imageLink">
-            <Form.Label column sm="2">Image Link:</Form.Label>
-            <Col sm="10">
-              <Form.Control
-                type="text"
-                name="imageLink"
-                value={formData.imageLink}
-                onChange={handleChange}
-              />
-            </Col>
-          </Form.Group>
-          <Button type="submit" variant="primary">Submit</Button>
-        </Form>
-      </Formik>
-      <Button onClick={handleGoBack} mt="4">Go Back</Button>
-    </Container>
+            <Form.Group as={Row} controlId="summary">
+              <Form.Label column sm="2">Summary:</Form.Label>
+              <Col sm="10">
+                <Form.Control as="textarea" name="summary" value={formData.summary} onChange={handleChange} />
+              </Col>
+            </Form.Group>
+
+            <Form.Group as={Row} controlId="imageLink">
+              <Form.Label column sm="3">Image Link:</Form.Label>
+              <Col sm="10">
+                <Form.Control type="text" name="imageLink" value={formData.imageLink} onChange={handleChange} />
+              </Col>
+            </Form.Group>
+
+            <Button type="submit" style={{ width: "100%", padding: "10px", background: "#4d814a", color: "#fff", border: "none", borderRadius: "5px" }}>Submit</Button>
+          </Form>
+        </Formik>
+
+        <Button onClick={handleGoBack} style={{ width: "100%", padding: "10px", marginTop: "20px", background: "#4d814a", color: "#fff", border: "none", borderRadius: "5px" }}>Go Back</Button>
+      </form>
+    </div>
   );
 };
 
