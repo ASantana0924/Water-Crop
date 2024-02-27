@@ -4,13 +4,17 @@ import { auth } from "../firebase/firebase";
 
 export default function Bluetooth () {
     let navigate = useNavigate();
+    const [plantProfiles, setPlantProfiles] = useState(() => JSON.parse(localStorage.getItem('plantProfiles')) || []);
     const [userUID, setUserUID] = useState();
     const [wifiInfo, setWifiInfo] = useState({
         id: "",
+        plantNumber: plantProfiles["length"],
         name: "",
         password: ""
     });
     const [connectionResult, setConnectionResult] = useState();
+
+    console.log(wifiInfo);
 
     useEffect(() => {
         if (auth.currentUser !== null) {
@@ -27,18 +31,18 @@ export default function Bluetooth () {
     const handleSubmit = (event) => {
         event.preventDefault();
         
+        updateJSON();
+
         setWifiInfo({
             id: userUID,
+            plantNumber: plantProfiles["length"],
             name: event.target.wifiName.value, 
             password: event.target.wifiPassword.value
         });
 
         console.log(wifiInfo);
 
-        //TODO: Figure out how to establish socket connection upon submission, maybe using python
         if (wifiInfo.name != "" && wifiInfo.password != "") {
-            const wifiInfoString = userUID + " " + wifiInfo.name + " " + wifiInfo.password;
-            console.log(wifiInfoString);
             setConnectionResult("paired");
         }
         else {
@@ -48,6 +52,7 @@ export default function Bluetooth () {
 
     // Bug: After redirect, page is submitted/refreshed twice. In order to go back to wifi selection, must click back arrow twice
     function userFeedback() {
+        
         if (connectionResult == "paired") {
             const dynamicValue = 'new';
             // Write wifi info to json file that will be read by the bluetooth server that is already running.
@@ -66,11 +71,28 @@ export default function Bluetooth () {
         }
     }
 
-    // function runBluetoothServer() {
-    //     const path = "../../socket/BluetoothServer.py"
-    //     let args = wifiInfo.id + " " + wifiInfo.name + " " + wifiInfo.password;
-    //     const bluetoothServer = spawn('python', [path].concat(args));
+    // function testing() {
+    //     const fs = require("fs");
+    //     const rawData = fs.readFileSync("../../public/networkData.json");
+    //     const jsonData = JSON.parse(rawData);
+
+    //     console.log(jsonData);
     // }
+
+    async function updateJSON() {
+        try {
+          const response = await fetch('../../public/networkData.json');
+          if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+          }
+    
+          const data = await response.json();
+          console.log(data);
+      
+        } catch (error) {
+          console.error("Error fetching or parsing JSON:", error.message);
+        }
+    }
 
     return (
         <div className="PairingBox">

@@ -1,5 +1,6 @@
 import socket
 import sys
+import json
 
 def main():
     # Establish socket connection
@@ -11,11 +12,9 @@ def main():
 
     client, addr = server.accept()
 
-    # Handle command line arguments
-    message = ""
-    n = len(sys.argv)
-    for i in range(1, n):
-        message += sys.argv[i] + " "
+    # Open json file
+    f = open('../public/networkData.json')
+    networkData = json.load(f)
 
     try:
         data = client.recv(1024)
@@ -24,7 +23,13 @@ def main():
             client.close()
             server.close()
         print(f"Message: {data.decode('utf-8')}")
-        # message = "'User ID', 'Network Name', 'Network Password'"
+
+        # Infinite loop while JSON file is empty
+        while (networkData['go'] == False):
+            print(waiting)
+
+        # Set contents of JSON file to message.
+        message = networkData['UID'] + ", " + networkData['plantNumber'] + ", " + networkData['networkName'] + ", " + networkData['networkPassword']
         client.send(message.encode('utf-8'))
     except OSError as e:
         pass

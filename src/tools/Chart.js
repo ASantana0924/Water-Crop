@@ -124,9 +124,9 @@ export default function Chart() {
         datasets: [{
                 label: selectedStat,
                 data: plantData.map((point) => point.y),
-                backgroundColor: 'green',
-                borderColor: 'green',
-                pointBorderColor: 'green'
+                backgroundColor: 'white',
+                borderColor: 'white',
+                pointBorderColor: 'white'
             }
         ]
     }
@@ -141,7 +141,16 @@ export default function Chart() {
                 max: setMax(selectedStat),
                 title: {
                     display: true,
-                    text: setYAxisTitle(selectedStat)
+                    text: setYAxisTitle(selectedStat),
+                    color: 'white'
+                },
+                grid: {
+                    color: 'white'
+                }
+            },
+            x: {
+                grid: {
+                  color: 'white'
                 }
             }
         }

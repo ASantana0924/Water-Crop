@@ -4,7 +4,7 @@ import React, { useState, useEffect , useRef} from 'react';
 import { useNavigate , useLocation } from 'react-router-dom';
 import '../styles.css';
 
-export default function Home( {selectedPlant, updatePlant} ) {
+export default function Home() {
   let navigate = useNavigate();
   
   const [plantProfiles, setPlantProfiles] = useState(() => JSON.parse(localStorage.getItem('plantProfiles')) || []);
@@ -56,10 +56,6 @@ export default function Home( {selectedPlant, updatePlant} ) {
   };
 
   const handleStatsPlant = (plant, plantIndex) => {
-    // console.log(plant);
-    console.log(plantIndex);
-    console.log(selectedPlant);
-
     let path = '/plant-profiles/' + plantIndex;
     navigate(path);
   };
@@ -85,11 +81,11 @@ export default function Home( {selectedPlant, updatePlant} ) {
               />
             </div>
             <p className="Description">{plant.summary}</p>
+            <button onClick={() => handleStatsPlant(plant, index)}>View Statistics!</button>
             <div className="ActionButtons">
-              <button onClick={() => handleEditPlant(index)}>Edit</button>
+              {/* <button onClick={() => handleEditPlant(index)}>Edit</button> */}
               <button onClick={() => handleDeletePlant(index)}>Delete</button>
             </div>
-            <button onClick={() => handleStatsPlant(plant, index)}>View Statistics!</button>
           </div>
         ))}
       </div>

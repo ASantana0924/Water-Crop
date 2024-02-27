@@ -1,8 +1,8 @@
 //import "../styles.css";
 import React, { useState, useEffect } from "react";
-//import "./PlantProfiles.css";
-import { RTDBRef } from "../firebase/firebase";
-import { onValue } from "firebase/database";
+import "./PlantProfiles.css";
+import { auth, realtimeDatabase, RTDBRef } from "../firebase/firebase";
+import { onValue, ref } from "firebase/database";
 import ProgressBar from "../tools/ProgressBar";
 import { useNavigate, useParams } from 'react-router-dom';
 import Chart from "../tools/Chart";
@@ -13,21 +13,30 @@ export default function PlantProfiles() {
     const params = useParams();
 
     const [plantProfiles, setPlantProfiles] = useState(() => JSON.parse(localStorage.getItem('plantProfiles')) || []);
-    //setTest(test.filter((index) => index === params.id))
-    console.log(plantProfiles[params.id].name);
 
     // Initialize useState variables for plant profile page
-    const [chartData, setChartData] = useState("Moisture");
-
     const [moisturePercentage, setMoisturePercentage] = useState(0);
     const [waterPercentage, setWaterPercentage] = useState(0);
     const [temperaturePercentage, setTemperaturePercentage] = useState(0);
     const [PHPercentage, setPHPercentage] = useState(0);
+    const [UID, setUID] = useState(0);
 
     const returnHome = () => {
         let path = '/home';
         navigate(path);
     }
+
+    // useEffect(() => {
+    //     if (auth.currentUser !== null) {
+    //         setUID(auth.currentUser.uid);
+    //     }
+    //     console.log(UID)
+    // }, [auth]);
+    
+    // const refPath = UID + '/' + params.id + '/';
+    // console.log(refPath);
+
+    // const RTDBRef = ref(realtimeDatabase, refPath);
 
     useEffect(() => {
         // Listen for changes in the database
@@ -87,55 +96,6 @@ export default function PlantProfiles() {
         };
     }, []);
 
-    // function renderTableValues() {
-    //     if (chartData == "Moisture") {
-    //         return(
-    //             <tbody>
-    //                 {history.map((entry)=>
-    //                     <tr>
-    //                         <td>{entry.time}</td>
-    //                         <td>{entry.moistureString} - {entry.moistureNum}</td>
-    //                     </tr>
-    //                 )}
-    //             </tbody>
-    //         );
-    //     }
-    //     else if (chartData == "Water Level") {
-    //         return(
-    //             <tbody>
-    //                 {history.map((entry)=>
-    //                     <tr>
-    //                         <td>{entry.time}</td>
-    //                         <td>{entry.waterLevel}</td>
-    //                     </tr>
-    //                 )}
-    //             </tbody>
-    //         );
-    //     }
-    //     else if (chartData == "Temperature") {
-    //         return(
-    //             <tbody>
-    //                 {history.map((entry)=>
-    //                     <tr>
-    //                         <td>{entry.time}</td>
-    //                         <td>{entry.temp}</td>
-    //                     </tr>
-    //                 )}
-    //             </tbody>
-    //         );
-    //     }
-    //     else {
-    //         return(
-    //             <tbody>
-    //                 <tr>
-    //                     <td>No Data Yet</td>
-    //                     <td>No Data Yet</td>
-    //                 </tr>
-    //             </tbody>
-    //         )
-    //     }
-    // }
-
 
     // Render plant profile page
     // ** After <h2> - was giving error 
@@ -145,6 +105,9 @@ export default function PlantProfiles() {
     return (
         <div className="PlantProfile">
             <div className="PlantInfo">
+                <div className="PlantImage">
+                    <img src={plantProfiles[params.id].imageLink} alt="plant"/>
+                </div>
                 <div className="PlantText">
                     <h1>Plant {Number(params.id) + 1}: {plantProfiles[params.id].name} </h1>
                     <p>Description: {plantProfiles[params.id].summary} </p>
@@ -152,36 +115,34 @@ export default function PlantProfiles() {
                         <button onClick={() => returnHome()}>Home</button>
                     </div>
                 </div>
-                <div className="PlantImage">
-                    <img src={plantProfiles[params.id].imageLink} alt="plant"/>
-                </div>
-            </div>
-
-            <div className="chart">
-                    <Chart />
+                
             </div>
 
             <div className="StatsTabs">
                 <h1>Live Stats:</h1>
-                <div class="tabs">
-                    Moisture<ProgressBar percentage={moisturePercentage} color={"#90EE90"} text=""/>
-                    Water<ProgressBar percentage={waterPercentage} color={"#90EE90"} text=""/>
-                    Temperature<ProgressBar percentage={temperaturePercentage} color={"#90EE90"} text=" F"/>
-                    PH<ProgressBar percentage={PHPercentage} color={"#90EE90"}/>
+                <div class="meters">
+                    <div className="data">
+                        <h2>Moisture</h2>
+                        <ProgressBar percentage={moisturePercentage} color={"#90EE90"} text=""/>
+                    </div>
+                    <div className="data">
+                        <h2>Water Level</h2>
+                        <ProgressBar percentage={waterPercentage} color={"#90EE90"} text=""/>
+                    </div>
+                    <div className="data">
+                        <h2>Temperature</h2>
+                        <ProgressBar percentage={temperaturePercentage} color={"#FF9b5f"} text=" F"/>
+                    </div>
+                    <div className="data">
+                        <h2>pH</h2>
+                        <ProgressBar percentage={PHPercentage} color={"#FEFF99"}/>
+                    </div>                    
                 </div>
-                {/* <h1>{chartData} History:</h1>
-                <div className="Table-container">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Time</th>
-                                <th>Value</th>
-                            </tr>
-                        </thead>
-                        {renderTableValues()}
-                    </table>
-                </div> */}
+                <div className="chart">
+                    <Chart />
+                </div>
             </div>
+
         </div>
     );
 }
