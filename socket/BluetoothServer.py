@@ -26,7 +26,7 @@ def main():
 
         # Infinite loop while JSON file is empty
         while (networkData['go'] == False):
-            print(waiting)
+            print("waiting")
 
         # Set contents of JSON file to message.
         message = networkData['UID'] + ", " + networkData['plantNumber'] + ", " + networkData['networkName'] + ", " + networkData['networkPassword']

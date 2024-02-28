@@ -4,17 +4,22 @@ import { auth } from "../firebase/firebase";
 
 export default function Bluetooth () {
     let navigate = useNavigate();
+
     const [plantProfiles, setPlantProfiles] = useState(() => JSON.parse(localStorage.getItem('plantProfiles')) || []);
     const [userUID, setUserUID] = useState();
+
     const [wifiInfo, setWifiInfo] = useState({
-        id: "",
-        plantNumber: plantProfiles["length"],
+        uid: "",
+        plantNumber: plantProfiles["length"].toString(),
         name: "",
         password: ""
     });
+
     const [connectionResult, setConnectionResult] = useState();
 
-    console.log(wifiInfo);
+    //console.log(wifiInfo);
+
+    // aruiz3@ufl.edu UID: xprguFXnDjUFshZFg88TE6L2TZ52
 
     useEffect(() => {
         if (auth.currentUser !== null) {
@@ -30,17 +35,17 @@ export default function Bluetooth () {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        
-        updateJSON();
 
         setWifiInfo({
-            id: userUID,
-            plantNumber: plantProfiles["length"],
+            uid: userUID,
+            plantNumber: plantProfiles["length"].toString(),
             name: event.target.wifiName.value, 
             password: event.target.wifiPassword.value
         });
 
-        console.log(wifiInfo);
+        updateJSON();
+
+        //console.log(wifiInfo);
 
         if (wifiInfo.name != "" && wifiInfo.password != "") {
             setConnectionResult("paired");
@@ -71,26 +76,24 @@ export default function Bluetooth () {
         }
     }
 
-    // function testing() {
-    //     const fs = require("fs");
-    //     const rawData = fs.readFileSync("../../public/networkData.json");
-    //     const jsonData = JSON.parse(rawData);
-
-    //     console.log(jsonData);
-    // }
-
     async function updateJSON() {
         try {
-          const response = await fetch('../../public/networkData.json');
-          if (!response.ok) {
-            throw new Error(`HTTP error! Status: ${response.status}`);
-          }
-    
-          const data = await response.json();
-          console.log(data);
-      
+            const response = await fetch('http://localhost:3000/networkData.json');
+            let jsonData = await response.json();
+
+            // Update the data
+            jsonData.UID = wifiInfo.uid;
+            jsonData.plantNumber = wifiInfo.plantNumber;
+            jsonData.networkName = wifiInfo.name;
+            jsonData.networkPassword = wifiInfo.password;
+            jsonData.go = true;
+
+            // Save the updated JSON back to the local storage
+            localStorage.setItem('networkData', JSON.stringify(jsonData));
+
+            console.log("JSON data updated and saved to local storage:", jsonData);
         } catch (error) {
-          console.error("Error fetching or parsing JSON:", error.message);
+            console.error("Error updating JSON:", error);
         }
     }
 

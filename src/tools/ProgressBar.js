@@ -4,11 +4,6 @@ import { SemiCircleProgress } from "react-semicircle-progressbar";
 var percentage = 10; // percentage to be displayed on progress bar
 
 export default function ProgressBar({statValue, statType, plantName}) {
-
-  console.log(statValue);
-  console.log(statType);
-  console.log(plantName);
-
   const [color, setColor] = useState(null); // State to store color
   const [percentage, setPercentage] = useState(null); // State to store color
   
