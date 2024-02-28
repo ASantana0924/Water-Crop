@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { Formik } from 'formik';
 import { Container, Form, Button, Row, Col } from 'react-bootstrap';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import SearchBar from "./SearchBar";
 
 const AddPlant = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const [plantEntries, setPlantEntries] = useState([]);
   const [formData, setFormData] = useState({
     id: '',
@@ -34,13 +35,33 @@ const AddPlant = () => {
   };
 
   // handle new plant submission
-  const handleSubmit = () => {
-    navigate('/home', { state: { data: formData } });
+  const handleSubmit = (e) => {
+    e.preventDefault(); // Prevent default form submission behavior
+    const isEditing = location.state && location.state.index !== undefined;
+  
+    if (isEditing) {
+      // Update the existing plant entry
+      const updatedPlantEntries = [...plantEntries];
+      updatedPlantEntries[location.state.index] = formData;
+      // Here you should persist the updated list to wherever you store it,
+      // for example sending it back to the server or updating local state
+      setPlantEntries(updatedPlantEntries);
+      // Navigate back with updated formData
+      navigate('/home', { state: { data: formData, action: 'edit', index: location.state.index } });
+    } else {
+      // Add a new plant entry
+      // Similarly, persist this new plant to your storage method
+      const newPlantEntries = [...plantEntries, formData];
+      setPlantEntries(newPlantEntries);
+      // Navigate back with new formData
+      navigate('/home', { state: { data: formData, action: 'add', index: newPlantEntries.length - 1 } });
+    }
   };
+  
 
   // navigate back to the home page
   const handleGoBack = () => {
-    navigate('/Bluetooth');
+    navigate('/Home');
   };
 
   // handle form field changes
