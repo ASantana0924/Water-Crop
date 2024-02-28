@@ -155,10 +155,10 @@ export default function PlantProfiles({ plant, updatePlant, history, updateHisto
             <div className="StatsTabs">
                 <h1>Live Stats:</h1>
                 <div class="tabs">
-                    Moisture<ProgressBar percentage={moisturePercentage} color={"#90EE90"} text=""/>
-                    Water<ProgressBar percentage={waterPercentage} color={"#90EE90"} text=""/>
-                    Temperature<ProgressBar percentage={temperaturePercentage} color={"#90EE90"} text=" F"/>
-                    PH<ProgressBar percentage={PHPercentage} color={"#90EE90"}/>
+                    Moisture<ProgressBar percentage={moisturePercentage} color={"#006400"} text=""/>
+                    Water<ProgressBar percentage={waterPercentage} color={"#006400"} text=""/>
+                    Temperature<ProgressBar percentage={temperaturePercentage} color={"#006400"} text=" F"/>
+                    PH<ProgressBar percentage={PHPercentage} color={"#006400"}/>
                     {/*
                     <button class="tablinks" onClick={() => setChartData("Moisture")} autofocus>Moisture: {plant.stats.moisture}</button>
                     <button class="tablinks" onClick={() => setChartData("Water Level")} >Water Level: {plant.stats.waterLevel}</button>

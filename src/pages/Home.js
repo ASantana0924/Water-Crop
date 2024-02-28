@@ -6,7 +6,7 @@ import '../styles.css';
 
 export default function Home( {updatePlant} ) {
   let navigate = useNavigate();
-  
+  let location = useLocation();
   const [plantProfiles, setPlantProfiles] = useState(() => JSON.parse(localStorage.getItem('plantProfiles')) || []);
   const { state } = useLocation();
   const [formData, setFormData] = useState({});
@@ -29,16 +29,27 @@ export default function Home( {updatePlant} ) {
   }, [plantProfiles]);
 
   useEffect(() => {
-    console.log("Form Data:", formData);
-    if (Object.keys(formData).length !== 0 && isNewPlant === true) {
-      if(plantProfiles.length < 3) {
-        setPlantProfiles(prevPlantProfiles => [...prevPlantProfiles, formData]);
-      } else {
-        alert('Maximum of 3 plants allowed.');
+    const handleUpdatePlantProfiles = () => {
+      // Determine if we're adding a new plant or editing an existing one
+      const action = location.state?.action;
+      const index = location.state?.index;
+  
+      if (action === 'add' && Object.keys(formData).length !== 0) {
+        // Adding a new plant
+        if (plantProfiles.length < 3) {
+          setPlantProfiles(prevPlantProfiles => [...prevPlantProfiles, formData]);
+        } else {
+          alert('Maximum of 3 plants allowed.');
+        }
+      } else if (action === 'edit' && index !== undefined && Object.keys(formData).length !== 0) {
+        // Editing an existing plant
+        setPlantProfiles(prevPlantProfiles => prevPlantProfiles.map((item, idx) => idx === index ? formData : item));
       }
-      setIsNewPlant(false);
-    }
-  }, [formData]);
+    };
+  
+    handleUpdatePlantProfiles();
+  }, [formData, location.state]); // Depend on formData and location.state to trigger the effect
+  
 
   const handleAddPlant = () => {
     const dynamicValue = 'new';
@@ -47,7 +58,10 @@ export default function Home( {updatePlant} ) {
 
   const handleEditPlant = (plantIndex) => {
     console.log('Editing plant:', plantIndex);
+    const plantToEdit = plantProfiles[plantIndex];
+    navigate(`/add-plant/edit`, { state: { data: plantToEdit, index: plantIndex } });
   };
+  
 
   const handleDeletePlant = (plantIndex) => {
     const updatedPlantProfiles = plantProfiles.filter((plant, index) => index !== plantIndex);
