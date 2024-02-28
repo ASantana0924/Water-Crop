@@ -105,7 +105,7 @@ const AddPlant = () => {
               </Col>
             </Form.Group>
 
-            <Button type="submit" style={{ width: "100%", padding: "10px", background: "#4d814a", color: "#fff", border: "none", borderRadius: "5px" }}>Submit</Button>
+            <Button onClick={handleSubmit} type="submit" style={{ width: "100%", padding: "10px", background: "#4d814a", color: "#fff", border: "none", borderRadius: "5px" }}>Submit</Button>
           </Form>
         </Formik>
 
