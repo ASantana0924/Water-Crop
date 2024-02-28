@@ -6,15 +6,12 @@ body {
 .App {
   font-family: sans-serif;
   text-align: center;
-  border: 10px solid white; /* Changed to white border */
-  padding: 20px;
+  padding: 10px;
   min-height: 100vh; /* Set minimum height to cover the entire viewport height */
   display: flex;
   flex-direction: column;
   justify-content: center;
-  background-color: #7cb580; /* Set the background color to green */
-  border-radius: 10px; /* Adds rounded corners to the border */
-  border: 3px solid #7d9c7b;
+  background-color: #9cc599; /* Set the background color to green */
 }
 
 p.statistics {
@@ -48,7 +45,6 @@ p.statistics {
 
 .Profiles {
   width: 800px; /* Adjust the maximum width as needed */
-  height: 650px;
   padding: 15px; /* Adjust the padding as needed */
   border: 2px solid #ccc;
   border-radius: 20px; /* Adjust the border-radius for rounded corners */
@@ -61,10 +57,11 @@ p.statistics {
 .App .Header {
   font-weight: bold;
   text-align: center;
-  /* font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; */
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
   margin-top: 80px;
   margin-bottom: 40px;
   /*font-style: italic;  Italicize the text */
+  text-decoration: underline; /* Underline the text */
   font-size: 50px; /* Adjust the font size as needed */
 }
 
