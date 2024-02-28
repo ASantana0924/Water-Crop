@@ -5,8 +5,11 @@ var percentage = 10; // percentage to be displayed on progress bar
 
 export default function ProgressBar({statValue, statType, plantName}) {
 
+  console.log(statValue);
+  console.log(statType);
+  console.log(plantName);
+
   const [color, setColor] = useState(null); // State to store color
-  const [text, setText] = useState(""); // State to text
   const [percentage, setPercentage] = useState(null); // State to store color
   
   // Colors for stat range indicators
@@ -18,8 +21,11 @@ export default function ProgressBar({statValue, statType, plantName}) {
   // Retrieve optimal stat ranges from plant API json given a plant name
   const fetchPlantStatRanges = async (name) => {
     // Read the JSON data from the file
-    const jsonData = await fetch('plantProfiles.json')
-    .then(response => response.json());
+    // const jsonData = await fetch('../../public/plantProfiles.json')
+    // .then(response => response.json());
+
+    const response = await fetch('http://localhost:3000/plantprofiles.json');
+    const jsonData = await response.json();
 
     // Find the plant object matching the given name
     const plant = jsonData.find(plant => plant.name.toLowerCase() === name.toLowerCase());
@@ -52,7 +58,6 @@ export default function ProgressBar({statValue, statType, plantName}) {
       fivePercentDeviation = 0.05 * 100;
       tenPercentDeviation = 0.1 * 100;
       setPercentage(statValue);
-      setText("");
 
     } else if (statType == "water") {
       min = plantValues.water_min;
@@ -60,7 +65,6 @@ export default function ProgressBar({statValue, statType, plantName}) {
       fivePercentDeviation = 0.05 * 1;
       tenPercentDeviation = 0.1 * 1;
       setPercentage(statValue * 100);
-      setText("");
 
     } else if (statType == "temperature") {
       min = plantValues.temp_min;
@@ -68,7 +72,6 @@ export default function ProgressBar({statValue, statType, plantName}) {
       fivePercentDeviation = 0.05 * 110;
       tenPercentDeviation = 0.1 * 110;
       setPercentage(((statValue / 110) * 100).toFixed(0));
-      setText("°F");
 
     } else {
       min = plantValues.ph_min;
@@ -76,10 +79,8 @@ export default function ProgressBar({statValue, statType, plantName}) {
       fivePercentDeviation = 0.05 * 14;
       tenPercentDeviation = 0.1 * 14; 
       setPercentage(((statValue / 14) * 100).toFixed(0));
-      setText(statValue + " ");
 
     }
-
 
     if (statValue <= max && statValue >= min) {
       return green;
@@ -92,7 +93,6 @@ export default function ProgressBar({statValue, statType, plantName}) {
 
     } else {
       return red;
-
     }
   }
 
@@ -115,7 +115,9 @@ export default function ProgressBar({statValue, statType, plantName}) {
                   strokeWidth={10}
                   strokeColor={color}
                   hasBackground={true}
-                  percentageSeperator={text}
+                  fontStyle={{
+                    fill: "#7cb580"
+                  }}
       />
   );
 }

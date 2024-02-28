@@ -21,7 +21,7 @@ export default function SignUp() {
   };
 
   return (
-    <div className="login-container" style={{ backgroundColor: "#9cc599", minHeight: "100vh", display: "flex", flexDirection: "column", justifyContent: "center" }}>
+    <div className="login-container" style={{ backgroundColor: "#7cb580", border: "3px solid #7d9c7b", borderRadius: "10px", minHeight: "100vh", display: "flex", flexDirection: "column", justifyContent: "center" }}>
       <form onSubmit={signUp} style={{ width: "400px", margin: "auto", padding: "55px", borderRadius: "10px", background: "#fff" }}>
         <h1 style={{ textAlign: "center", fontSize: "44px", fontWeight: "bold", marginTop: '40px', marginBottom: '40px' }}>
           WaterCrop

@@ -40,7 +40,7 @@ const AddPlant = () => {
 
   // navigate back to the home page
   const handleGoBack = () => {
-    navigate('/home');
+    navigate('/Bluetooth');
   };
 
   // handle form field changes

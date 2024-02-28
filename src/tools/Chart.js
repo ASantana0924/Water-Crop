@@ -43,13 +43,13 @@ const formatDate = (dateString) => {
 const setYAxisTitle = (stat) => {
 
     if (stat == "moisture") {
-        return 'Moisture';
+        return 'Moisture (%)';
     } else if (stat == "water_level") {
         return 'Water Level';
     } else if (stat == "temperature") {
         return 'Temperature (°F)';
     } else {
-        return 'PH';
+        return 'pH';
     };
 }
 
@@ -67,7 +67,7 @@ const setMin = (stat) => {
 
 const setMax = (stat) => {
     if (stat == "moisture") {
-        return 18000;
+        return 100;
     } else if (stat == "water_level") {
         return 1;
     } else if (stat == "temperature") {
@@ -80,7 +80,7 @@ const setMax = (stat) => {
 export default function Chart() {
     //getPlantStatsHistory();
     const [plantData, setPlantData] = useState([]);
-    const [selectedStat, setSelectedStat] = useState([""]);
+    const [selectedStat, setSelectedStat] = useState(["moisture"]);
     const firestoreDBRef = collection(firestoreDatabase, 'PlantDataHistory/plant1/stats');
     const q = query(firestoreDBRef, orderBy("time"));
 
@@ -124,9 +124,9 @@ export default function Chart() {
         datasets: [{
                 label: selectedStat,
                 data: plantData.map((point) => point.y),
-                backgroundColor: 'green',
-                borderColor: 'green',
-                pointBorderColor: 'green'
+                backgroundColor: 'white',
+                borderColor: 'white',
+                pointBorderColor: 'white'
             }
         ]
     }
@@ -141,7 +141,37 @@ export default function Chart() {
                 max: setMax(selectedStat),
                 title: {
                     display: true,
-                    text: setYAxisTitle(selectedStat)
+                    text: setYAxisTitle(selectedStat),
+                    color: 'white',
+                    textStrokeColor: 'white',
+                    textStrokeWidth: 0.5,
+                    font: {
+                        size: 25
+                    }
+                },
+                grid: {
+                    color: 'white'
+                },
+                ticks: {
+                    color: 'white',
+                    textStrokeColor: 'white',
+                    textStrokeWidth: 0.5,
+                    font: {
+                        size: 18
+                    }
+                }
+            },
+            x: {
+                grid: {
+                  color: 'white'
+                },
+                ticks: {
+                    color: 'white',
+                    textStrokeColor: 'white',
+                    textStrokeWidth: 0.5,
+                    font: {
+                        size: 18
+                    }
                 }
             }
         }
