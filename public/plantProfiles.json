@@ -5,10 +5,10 @@
         "summary": "A popular succulent known for its medicinal properties.",
         "imageLink": "https://images.pond5.com/aloe-aloe-vera-3d-096456817_iconl.jpeg",
         "stats": {
-            "moisture": 8000,
+            "moisture": [20, 40],
             "ph": [6.5,6.8],
             "temp": [55,85],
-            "water_level": 2
+            "water_level": [0, 1]
         }
     },
     {
@@ -17,10 +17,10 @@
         "summary": "A versatile plant used for various purposes, including construction and decoration.",
         "imageLink": "https://images.pond5.com/lucky-bamboo-plant-3d-091531506_iconl.jpeg",
         "stats": {
-            "moisture": 7000,
+            "moisture": [50, 70],
             "ph": [5.5,6.5],
             "temp": [65,90],
-            "water_level": 4
+            "water_level": [0, 1]
         }
     },
     {
@@ -29,22 +29,22 @@
         "summary": "Well-adapted to arid environments, known for its unique appearance.",
         "imageLink": "https://images.pond5.com/cactus-epiphyllum-sp-3d-089227657_iconl.jpeg",
         "stats": {
-            "moisture": 5000,
+            "moisture": [10, 30],
             "ph": [5, 6.5],
             "temp": [70, 100],
-            "water_level": 2
+            "water_level": [0, 1]
         }
     },
     {
         "id": 3,
         "name": "Daisy",
         "summary": "A classic flowering plant with a simple and charming appearance.",
-        "imageLink": "https://images.pond5.com/daisy-3d-091479168_iconl.jpeg",
+        "imageLink": "https://h2.commercev3.net/cdn0.michiganbulb.com/images/500/78220A.jpg",
         "stats": {
-            "moisture": 9000,
+            "moisture": [40, 60],
             "ph": [6,8],
             "temp": [60,75],
-            "water_level": 3
+            "water_level": [0, 1]
         }
     },
     {
@@ -53,10 +53,10 @@
         "summary": "Known for its fragrant leaves and oil, commonly used in aromatherapy.",
         "imageLink": "https://ih0.redbubble.net/image.901795473.3086/raf,360x360,075,t,fafafa:ca443f4786.jpg",
         "stats": {
-            "moisture": 7000,
+            "moisture": [40, 60],
             "ph": [5.1,5.6],
             "temp": [65,75],
-            "water_level": 2
+            "water_level": [0, 1]
         }
     },
     {
@@ -65,10 +65,10 @@
         "summary": "Known for its fragrant white flowers and glossy leaves.",
         "imageLink": "https://www.ashaddflorist.com/files/1014/4640/7836/Gardenia.jpg",
         "stats": {
-            "moisture": 9000,
+            "moisture": [50, 70],
             "ph": [5.0,6.5],
             "temp": [60,70],
-            "water_level": 4
+            "water_level": [0, 1]
         }
     },
     {
@@ -77,10 +77,10 @@
         "summary": "Colorful flowering plant often associated with tropical regions.",
         "imageLink": "https://ih1.redbubble.net/image.3463415596.8180/raf,360x360,075,t,fafafa:ca443f4786.jpg",
         "stats": {
-            "moisture": 8000,
+            "moisture": [50, 70],
             "ph": [5.5,7.0],
             "temp": [65,75],
-            "water_level": 3
+            "water_level": [0, 1]
         }
     },
     {
@@ -89,10 +89,10 @@
         "summary": "Climbing or ground-covering plant with distinct leaves, commonly used for decoration.",
         "imageLink": "https://ih0.redbubble.net/image.4741515056.6025/raf,360x360,075,t,fafafa:ca443f4786.jpg",
         "stats": {
-            "moisture": 4000,
+            "moisture": [40, 60],
             "ph": [5.5,6.5],
             "temp": [45,80],
-            "water_level": 4
+            "water_level": [0, 1]
         }
     },
     {
@@ -101,10 +101,10 @@
         "summary": "Fragrant flowering plant known for its aromatic white flowers.",
         "imageLink": "https://t4.ftcdn.net/jpg/06/36/06/33/360_F_636063301_GAStVK960frsKaiT4JnbVj9VIrrB01Jb.jpg",
         "stats": {
-            "moisture": 8000,
+            "moisture": [40, 60],
             "ph": [5.5,6.5],
             "temp": [60,75],
-            "water_level": 2
+            "water_level": [0, 1]
         }
     },
     {
@@ -113,10 +113,10 @@
         "summary": "Sunflowers are vibrant, yellow blooms that symbolize positivity and adoration in gardens.",
         "imageLink": "https://t4.ftcdn.net/jpg/02/25/12/33/360_F_225123378_iAHgUsACXnqBQIBjXNeBrC71RNEPgqUF.jpg",
         "stats": {
-            "moisture": 8000,
+            "moisture": [50, 70],
             "ph": [6.0,6.8],
             "temp": [70,80],
-            "water_level": 3
+            "water_level": [0, 1]
         }
     },
     {
@@ -125,10 +125,10 @@
         "summary": "Tulips are elegant and colorful spring flowers that symbolize beauty and love.",
         "imageLink": "https://images.pond5.com/tulips-yellow-single-laying-3d-090874374_iconl.jpeg",
         "stats": {
-            "moisture": 7000,
+            "moisture": [40, 60],
             "ph": [6.0,7.0],
             "temp": [60,70],
-            "water_level": 3
+            "water_level": [0, 1]
         }
     }
 ]

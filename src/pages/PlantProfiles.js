@@ -15,10 +15,10 @@ export default function PlantProfiles() {
     const [plantProfiles, setPlantProfiles] = useState(() => JSON.parse(localStorage.getItem('plantProfiles')) || []);
 
     // Initialize useState variables for plant profile page
-    const [moisturePercentage, setMoisturePercentage] = useState(0);
-    const [waterPercentage, setWaterPercentage] = useState(0);
-    const [temperaturePercentage, setTemperaturePercentage] = useState(0);
-    const [PHPercentage, setPHPercentage] = useState(0);
+    const [moistureValue, setMoistureValue] = useState(0);
+    const [waterValue, setWaterValue] = useState(0);
+    const [temperatureValue, setTemperatureValue] = useState(0);
+    const [PHValue, setPHValue] = useState(0);
     const [UID, setUID] = useState(0);
 
     const returnHome = () => {
@@ -42,52 +42,11 @@ export default function PlantProfiles() {
         // Listen for changes in the database
         const unsubscribe = onValue(RTDBRef, (snapshot) => {
             // Update plant object attributes with live data
-
-            let waterLevelString = "Empty";
-            if (snapshot.val().water_level) {
-                waterLevelString = "Full";
-            }
-
-            const moisture = snapshot.val().moisture;
-            let moistureString = "No Soil";
-            if (moisture <= 17000 && moisture > 15000) {
-                moistureString = "Low";
-            }
-            else if (moisture <= 15000 && moisture > 11000) {
-                moistureString = "Good";
-            }
-            else if (moisture <= 11000 && moisture > 9000) {
-                moistureString = "High";
-            }
-            else if (moisture <= 9000) {
-                moistureString = "In Water";
-            }
-
-            // updatePlant(prevPlant => ({
-            //     ...prevPlant,
-            //     stats: {
-            //         ...prevPlant.stats,
-            //         moisture: moistureString,
-            //         waterLevel: waterLevelString,
-            //         temp: snapshot.val().temperature,
-            //         pH: snapshot.val().pH,
-            //     }
-            // }));
-
-            const data = {
-                time: snapshot.val().time, 
-                moistureString: moistureString,
-                moistureNum: snapshot.val().moisture,
-                waterLevel: waterLevelString,
-                temp: snapshot.val().temperature
-            };
         
-            setMoisturePercentage(Number(((19000 - snapshot.val().moisture)/19000) * 100).toFixed(1));
-            setWaterPercentage(snapshot.val().water_level * 100);
-            setTemperaturePercentage((snapshot.val().temperature/100) * 100);
-            setPHPercentage(50);
-
-            // updateHistory(prevHistory => [data, ...prevHistory])
+            setMoistureValue(snapshot.val().moisture);
+            setWaterValue(snapshot.val().water_level);
+            setTemperatureValue(snapshot.val().temperature);
+            setPHValue(snapshot.val().pH);
         });
  
         // Clean up the listener when the component unmounts
@@ -96,12 +55,15 @@ export default function PlantProfiles() {
         };
     }, []);
 
+    function getWaterString() {
+        if (waterValue) {
+            return("Full");
+        }
+        else {
+            return("Empty")
+        }
+    }
 
-    // Render plant profile page
-    // ** After <h2> - was giving error 
-    //<div className="HomeButton">
-    //  <button onClick={() => returnHome()}>Home</button>
-    //</div>
     return (
         <div className="PlantProfile">
             <div className="PlantInfo">
@@ -115,7 +77,6 @@ export default function PlantProfiles() {
                         <button onClick={() => returnHome()}>Home</button>
                     </div>
                 </div>
-                
             </div>
 
             <div className="StatsTabs">
@@ -123,25 +84,29 @@ export default function PlantProfiles() {
                 <div class="meters">
                     <div className="data">
                         <h2>Moisture</h2>
-                        <ProgressBar percentage={moisturePercentage} color={"#90EE90"} text=""/>
+                        <ProgressBar statValue={moistureValue} statType={"moisture"} plantName={plantProfiles[params.id].name}/>
+                        <h2 class="value">{moistureValue}%</h2>
                     </div>
                     <div className="data">
                         <h2>Water Level</h2>
-                        <ProgressBar percentage={waterPercentage} color={"#90EE90"} text=""/>
+                        <ProgressBar statValue={waterValue} statType={"water"} plantName={plantProfiles[params.id].name}/>
+                        <h2 class="value">{getWaterString()}</h2>
                     </div>
                     <div className="data">
                         <h2>Temperature</h2>
-                        <ProgressBar percentage={temperaturePercentage} color={"#FF9b5f"} text=" F"/>
+                        <ProgressBar statValue={temperatureValue} statType={"temperature"} plantName={plantProfiles[params.id].name}/>
+                        <h2 class="value">{temperatureValue}°F</h2>
                     </div>
                     <div className="data">
                         <h2>pH</h2>
-                        <ProgressBar percentage={PHPercentage} color={"#FEFF99"}/>
-                    </div>                    
+                        <ProgressBar statValue={PHValue} statType={"ph"} plantName={plantProfiles[params.id].name}/>
+                        <h2 class="value">{PHValue}</h2>
+                    </div>
                 </div>
-                <div className="chart">
-                    <Chart />
-                </div>
+                <Chart/>
             </div>
+
+            
 
         </div>
     );
