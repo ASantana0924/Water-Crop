@@ -4,7 +4,7 @@ import React, { useState, useEffect , useRef} from 'react';
 import { useNavigate , useLocation } from 'react-router-dom';
 import '../styles.css';
 
-export default function Home( {updatePlant} ) {
+export default function Home() {
   let navigate = useNavigate();
   let location = useLocation();
   const [plantProfiles, setPlantProfiles] = useState(() => JSON.parse(localStorage.getItem('plantProfiles')) || []);
@@ -52,8 +52,9 @@ export default function Home( {updatePlant} ) {
   
 
   const handleAddPlant = () => {
-    const dynamicValue = 'new';
-    navigate(`/add-plant/${dynamicValue}`);
+    // const dynamicValue = 'new';
+    // navigate(`/add-plant/${dynamicValue}`);
+    navigate('/Bluetooth');
   };
 
   const handleEditPlant = (plantIndex) => {
@@ -69,17 +70,7 @@ export default function Home( {updatePlant} ) {
   };
 
   const handleStatsPlant = (plant, plantIndex) => {
-    console.log(plant);
-
-    updatePlant(prevPlant => ({
-      id: plantIndex,
-      name: plant.name,
-      summary: plant.summary,
-      imageLink: plant.imageLink,
-      ...prevPlant
-    }));
-
-    let path = '/plant-profiles';
+    let path = '/plant-profiles/' + plantIndex;
     navigate(path);
   };
 
@@ -104,11 +95,11 @@ export default function Home( {updatePlant} ) {
               />
             </div>
             <p className="Description">{plant.summary}</p>
+            <button onClick={() => handleStatsPlant(plant, index)}>View Statistics!</button>
             <div className="ActionButtons">
               <button onClick={() => handleEditPlant(index)}>Edit</button>
               <button onClick={() => handleDeletePlant(index)}>Delete</button>
             </div>
-            <button onClick={() => handleStatsPlant(plant, index)}>View Statistics!</button>
           </div>
         ))}
       </div>
