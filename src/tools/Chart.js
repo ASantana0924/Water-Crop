@@ -36,7 +36,6 @@ async function getPlantDataHistory() {
 }
 */
 const formatDate = (dateString) => {
-
     return (new Date(dateString.toDate()).getMonth() + 1) + "/" + (new Date(dateString.toDate())).getDate();
 }
 
@@ -57,7 +56,7 @@ const setMin = (stat) => {
     if (stat == "moisture") {
         return 0;
     } else if (stat == "water_level") {
-        return 0;
+        return -0.1;
     } else if (stat == "temperature") {
         return 0;
     } else {
@@ -69,7 +68,7 @@ const setMax = (stat) => {
     if (stat == "moisture") {
         return 100;
     } else if (stat == "water_level") {
-        return 1;
+        return 1.1;
     } else if (stat == "temperature") {
         return 120;
     } else {
@@ -106,7 +105,7 @@ export default function Chart() {
                     }
 
                     const point = {
-                        x: formatDate(doc.data().time), // Convert timestamp to Date object
+                        x: doc.data().time, // Convert timestamp to Date object
                         y: currentStat, // Use selectedStat for dynamic selection
                     };
                     data.push(point);
@@ -126,7 +125,9 @@ export default function Chart() {
                 data: plantData.map((point) => point.y),
                 backgroundColor: 'white',
                 borderColor: 'white',
-                pointBorderColor: 'white'
+                pointBorderColor: 'white',
+                pointBorderWidth: 3,
+                borderWidth: 5
             }
         ]
     }

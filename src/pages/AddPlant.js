@@ -38,7 +38,8 @@ const AddPlant = () => {
   const handleSubmit = (e) => {
     e.preventDefault(); // Prevent default form submission behavior
     const isEditing = location.state && location.state.index !== undefined;
-  
+    console.log(isEditing);
+    
     if (isEditing) {
       // Update the existing plant entry
       const updatedPlantEntries = [...plantEntries];

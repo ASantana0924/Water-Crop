@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import "./PlantProfiles.css";
 import { auth, realtimeDatabase, RTDBRef, firestoreDatabase } from "../firebase/firebase";
 import { onValue, ref } from "firebase/database";
-import { collection } from "firebase/firestore";
+import { collection, addDoc } from "firebase/firestore";
 import ProgressBar from "../tools/ProgressBar";
 import { useNavigate, useParams } from 'react-router-dom';
 import Chart from "../tools/Chart";
@@ -17,6 +17,7 @@ export default function PlantProfiles() {
 
     // Initialize useState variables for plant profile page
     const [dataTime, setDataTime] = useState("");
+    const [parsedTime, setParsedTime] = useState("");
     const [moistureValue, setMoistureValue] = useState(0);
     const [waterValue, setWaterValue] = useState(0);
     const [temperatureValue, setTemperatureValue] = useState(0);
@@ -34,10 +35,10 @@ export default function PlantProfiles() {
 
     const [averageData, setAverageData] = useState({
         "time" : "",
-        "moisture" : 0,
-        "waterLevel" : 0,
-        "temperature" : 0,
-        "ph" : 0
+        "moisture" : 23,
+        "water_level" : 0,
+        "temperature" : 77,
+        "ph" : 7
     });
 
     const returnHome = () => {
@@ -61,7 +62,8 @@ export default function PlantProfiles() {
         // Listen for changes in the database
         const unsubscribe = onValue(RTDBRef, (snapshot) => {
             // Update plant object attributes with live data
-            setDataTime(snapshot.val().time)
+            setDataTime(snapshot.val().time);
+            setParsedTime(snapshot.val().parsed_time);
             setMoistureValue(snapshot.val().moisture);
             setWaterValue(snapshot.val().water_level);
             setTemperatureValue(snapshot.val().temperature);
@@ -82,36 +84,48 @@ export default function PlantProfiles() {
     }, []);
 
     // Handle counter reaching limit
-    if (dataCounter >= 5) {
-        // Take average of sums and save in average data
-        setAverageData({
-            "time" : dataTime,
-            "moisture" : moistureSum / 5.0,
-            "waterLevel" : waterSum / 5.0,
-            "temperature" : temperatureSum / 5.0,
-            "ph" : pHSum / 5.0
-        })
+    useEffect(() => {
+        if (dataCounter >= 10) {
+    
+            // Take average of sums and save in average data
+            // setAverageData({
+            //     "time" : dataTime,
+            //     "parsed_time": parsedTime,
+            //     "moisture" : moistureSum / 10.0,
+            //     "water_level" : waterValue,
+            //     "temperature" : temperatureSum / 10.0,
+            //     "ph" : pHSum / 10.0
+            // })
 
-        // Send values to firebase
-        console.log(averageData);
-        // this breaks it :/
-        //uploadAverageData();
+            setAverageData({
+                "time" : dataTime,
+                "parsed_time": parsedTime,
+                "moisture" : moistureValue,
+                "water_level" : waterValue,
+                "temperature" : temperatureValue,
+                "ph" : checkPH(PHValue)
+            })
+    
+            // Send values to firebase
+            console.log(averageData);
+            uploadAverageData();
+    
+            // Reset sums
+            setDataCounter(0);
+            setMoistureSum(0);
+            setWaterSum(0);
+            setTemperatureSum(0);
+            setpHSum(0);
+        }
+    }, [dataCounter]);
 
-        // Reset sums
-        setDataCounter(0);
-        setMoistureSum(0);
-        setWaterSum(0);
-        setTemperatureSum(0);
-        setpHSum(0);
-    }
+    console.log(dataCounter);
 
     async function uploadAverageData() {
         //const res = await firestoreDatabase.collection('PlantDataHistory/plant1/stats').add(averageData);
         //console.log("Added document with ID: ", res.id);
-        await firestoreDBRef.doc().set(averageData);
+        const docRef = await addDoc(firestoreDBRef, averageData);
     }
-
-    console.log(dataCounter);
 
     function getWaterString() {
         if (waterValue) {
@@ -119,6 +133,15 @@ export default function PlantProfiles() {
         }
         else {
             return("Empty")
+        }
+    }
+
+    function checkPH(rawPh) {
+        if ((rawPh > 14) || (rawPh < 0)) {
+            return (rawPh - 14).toFixed(1);
+        }
+        else {
+            return (rawPh).toFixed(1);
         }
     }
 
@@ -143,7 +166,9 @@ export default function PlantProfiles() {
                     <div className="data">
                         <h2>Moisture</h2>
                         <ProgressBar statValue={moistureValue} statType={"moisture"} plantName={plantProfiles[params.id].name}/>
-                        <h2 className="value">{moistureValue}%</h2>
+                        <h2 
+                            className="value">{moistureValue}% <br/>
+                        </h2>
                     </div>
                     <div className="data">
                         <h2>Water Level</h2>
@@ -157,8 +182,8 @@ export default function PlantProfiles() {
                     </div>
                     <div className="data">
                         <h2>pH</h2>
-                        <ProgressBar statValue={PHValue} statType={"ph"} plantName={plantProfiles[params.id].name}/>
-                        <h2 className="value">{PHValue}</h2>
+                        <ProgressBar statValue={checkPH(PHValue)} statType={"ph"} plantName={plantProfiles[params.id].name}/>
+                        <h2 className="value">{checkPH(PHValue)}</h2>
                     </div>
                 </div>
                 <Chart/>

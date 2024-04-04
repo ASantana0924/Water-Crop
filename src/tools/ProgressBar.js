@@ -73,7 +73,7 @@ export default function ProgressBar({statValue, statType, plantName}) {
       max = plantValues.ph_max;
       fivePercentDeviation = 0.05 * 14;
       tenPercentDeviation = 0.1 * 14; 
-      setPercentage(((statValue / 14) * 100).toFixed(0));
+      setPercentage(((statValue / 14) * 100).toFixed(1));
 
     }
 

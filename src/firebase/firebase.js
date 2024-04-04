@@ -24,4 +24,4 @@ const app = initializeApp(realtimeConfig);
 export const auth = getAuth(app);
 export const realtimeDatabase = getDatabase();
 export const RTDBRef = ref(realtimeDatabase, 'Plants/');
-export const firestoreDatabase = getFirestore();
+export const firestoreDatabase = getFirestore(app);
