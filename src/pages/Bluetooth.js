@@ -4,17 +4,22 @@ import { auth } from "../firebase/firebase";
 
 export default function Bluetooth () {
     let navigate = useNavigate();
+
     const [plantProfiles, setPlantProfiles] = useState(() => JSON.parse(localStorage.getItem('plantProfiles')) || []);
     const [userUID, setUserUID] = useState();
+
     const [wifiInfo, setWifiInfo] = useState({
-        id: "",
-        plantNumber: plantProfiles["length"],
+        uid: "",
+        plantNumber: plantProfiles["length"].toString(),
         name: "",
         password: ""
     });
+
     const [connectionResult, setConnectionResult] = useState();
 
-    console.log(wifiInfo);
+    //console.log(wifiInfo);
+
+    // aruiz3@ufl.edu UID: xprguFXnDjUFshZFg88TE6L2TZ52
 
     useEffect(() => {
         if (auth.currentUser !== null) {
@@ -30,17 +35,17 @@ export default function Bluetooth () {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        
-        updateJSON();
 
         setWifiInfo({
-            id: userUID,
-            plantNumber: plantProfiles["length"],
+            uid: userUID,
+            plantNumber: plantProfiles["length"].toString(),
             name: event.target.wifiName.value, 
             password: event.target.wifiPassword.value
         });
 
-        console.log(wifiInfo);
+        updateJSON();
+
+        //console.log(wifiInfo);
 
         if (wifiInfo.name != "" && wifiInfo.password != "") {
             setConnectionResult("paired");
@@ -57,10 +62,11 @@ export default function Bluetooth () {
             const dynamicValue = 'new';
             // Write wifi info to json file that will be read by the bluetooth server that is already running.
 
-            setTimeout(() => {navigate(`/add-plant/${dynamicValue}`);}, 2000);
+            setTimeout(() => {navigate(`/add-plant/${dynamicValue}`);}, 4000);
             return (
-                <h2>Connection Successful! <br></br>
-                Redirecting to Plant Selection Page...</h2>
+                <h2>Connecting WaterCrop device to Wi-Fi  <br></br>
+                The WaterCrop device will take a few minutes before sending data.<br></br>
+                Redirecting you to Plant Selection Page...</h2>
             );
         }
         else if (connectionResult == "failed") {
@@ -71,26 +77,24 @@ export default function Bluetooth () {
         }
     }
 
-    // function testing() {
-    //     const fs = require("fs");
-    //     const rawData = fs.readFileSync("../../public/networkData.json");
-    //     const jsonData = JSON.parse(rawData);
-
-    //     console.log(jsonData);
-    // }
-
     async function updateJSON() {
         try {
-          const response = await fetch('../../public/networkData.json');
-          if (!response.ok) {
-            throw new Error(`HTTP error! Status: ${response.status}`);
-          }
-    
-          const data = await response.json();
-          console.log(data);
-      
+            const response = await fetch('http://localhost:3000/networkData.json');
+            let jsonData = await response.json();
+
+            // Update the data
+            jsonData.UID = wifiInfo.uid;
+            jsonData.plantNumber = wifiInfo.plantNumber;
+            jsonData.networkName = wifiInfo.name;
+            jsonData.networkPassword = wifiInfo.password;
+            jsonData.go = true;
+
+            // Save the updated JSON back to the local storage
+            localStorage.setItem('networkData', JSON.stringify(jsonData));
+
+            console.log("JSON data updated and saved to local storage:", jsonData);
         } catch (error) {
-          console.error("Error fetching or parsing JSON:", error.message);
+            console.error("Error updating JSON:", error);
         }
     }
 
@@ -98,9 +102,10 @@ export default function Bluetooth () {
         <div className="PairingBox">
             <h1>Connect to WaterCrop:</h1>
             <ol>
+                <li>Connect WaterCrop device to power</li>
                 <li>Open bluetooth settings on your current device</li>
                 <li>Select "raspberrypi" under discovered devices and wait for connection to be established</li>
-                <li>Enter the Wi-fi network name and password for the network that the WaterCrop will be using below
+                <li>Enter the Wi-fi network name and password for the network that the WaterCrop device will be using below
                     <br></br>
                     <form onSubmit={handleSubmit}>
                         <label for="Wifi Name">Wi-fi Network Name:
@@ -108,7 +113,7 @@ export default function Bluetooth () {
                         </label>
                         <br></br>
                         <label for="Wifi Password">Wi-fi Network Password:
-                        <input type="text" name="wifiPassword" value={wifiInfo.password} onChange={(e) => setWifiInfo({...wifiInfo, password: e.target.value})} placeholder="abc123"></input>
+                        <input type="password" name="wifiPassword" value={wifiInfo.password} onChange={(e) => setWifiInfo({...wifiInfo, password: e.target.value})} placeholder="..."></input>
                         </label>
                         <br></br>
                         <button type="submit">Submit</button>
