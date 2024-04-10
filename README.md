@@ -36,6 +36,7 @@ cd Water-Crop
 npm install
 ```
 Run these commands for Tailwind CSS features:
+```
 cd Water-Crop
 npm install -D tailwindcss
 npx tailwindcss init
