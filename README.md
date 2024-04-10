@@ -25,7 +25,8 @@ The **index.js** file puts the React application into the HTML page, and the **A
 **tools** - The tools directory has the JavaScript file for the navigation bar.
 
 ## Known Bugs
-There are currently no known bugs.
+- On the Bluetooth setup page, the Firebase UID of the logged-in user is retrieved. However, upon page refresh, the UID value becomes undefined, potentially causing issues with data transmission to the correct account on the Raspberry Pi.
+- If the home page is immediately refreshed after adding a new plant, the newly added plant may be duplicated.
 
 ## Getting Started
 In order to start this project, clone the repository by running these commands in a terminal:
@@ -59,5 +60,10 @@ cd Water-Crop
 npm install react-router-dom
 npm install antd
 npm install firebase
+npm install react-semicircle-progressbar
+npm install chart.js
+npm install --save chart.js react-chartjs-2
+npm install formik
+npm install react-bootstrap bootstrap
 npm start
 ```

@@ -25,21 +25,25 @@ const SearchBar = ({ data, onPlantSelect }) => {
 
     // Update the search query with the selected plant's name
     const handleSelectPlant = (plant) => {
-        setSelectedPlant(plant);
-        setSearchQuery(plant.name);
-        setPlantID(plant.id);
+        //setSelectedPlant(plant);
+        //setSearchQuery(plant.name);
+        //setPlantID(plant.id);
+        onPlantSelect(plant.id)
+        setSearchQuery('');
+        setPlantID('');
+        setIsFocused(false);
     };
     
     // Handle the submission of the search query
-    const handleSubmit = () => {
-        if(plantID !== '')
-        {
-            onPlantSelect(plantID)
-            setSearchQuery('');
-            setPlantID('');
-            setIsFocused(false);
-        }
-    };
+    // const handleSubmit = () => {
+    //     if(plantID !== '')
+    //     {
+    //         onPlantSelect(plantID)
+    //         setSearchQuery('');
+    //         setPlantID('');
+    //         setIsFocused(false);
+    //     }
+    // };
     
     return (
     <div>
@@ -50,7 +54,6 @@ const SearchBar = ({ data, onPlantSelect }) => {
             onChange={handleChange}
             onFocus={() => setIsFocused(true)}
         />
-        <button onClick={handleSubmit}>Submit</button>
         {isFocused && (
             <ul>
                 {filteredData.map((plant) => (

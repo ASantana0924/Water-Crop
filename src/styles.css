@@ -6,14 +6,14 @@ body {
 .App {
   font-family: sans-serif;
   text-align: center;
-  border: 10px solid white; /* Changed to white border */
-  padding: 20px;
+  padding: 10px;
   min-height: 100vh; /* Set minimum height to cover the entire viewport height */
   display: flex;
   flex-direction: column;
   justify-content: center;
-  background-color: rgb(77, 129, 74); /* Set the background color to green */
-  border-radius: 170px; /* Adds rounded corners to the border */
+  background-color: #7cb580; /* Set the background color to green */
+  border: 3px solid #7d9c7b;
+  border-radius: 10px;
 }
 
 p.statistics {
@@ -59,11 +59,8 @@ p.statistics {
 .App .Header {
   font-weight: bold;
   text-align: center;
-  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
   margin-top: 80px;
   margin-bottom: 40px;
-  /*font-style: italic;  Italicize the text */
-  text-decoration: underline; /* Underline the text */
   font-size: 50px; /* Adjust the font size as needed */
 }
 
