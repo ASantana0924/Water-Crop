@@ -95,7 +95,7 @@ export default function Home() {
               />
             </div>
             <p className="Description">{plant.summary}</p>
-            <button onClick={() => handleStatsPlant(plant, index)}>View Statistics!</button>
+            <button onClick={() => handleStatsPlant(plant, index)}>View Plant Health!</button>
             <div className="ActionButtons">
               <button onClick={() => handleEditPlant(index)}>Edit</button>
               <button onClick={() => handleDeletePlant(index)}>Delete</button>

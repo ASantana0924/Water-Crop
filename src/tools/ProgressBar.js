@@ -5,7 +5,9 @@ var percentage = 10; // percentage to be displayed on progress bar
 
 export default function ProgressBar({statValue, statType, plantName}) {
   const [color, setColor] = useState(null); // State to store color
-  const [percentage, setPercentage] = useState(null); // State to store color
+  const [percentage, setPercentage] = useState(null); // State to store percentage
+  const [valueText, setValueText] = useState(statValue); // State to store text string of metric
+  const [userIndicator, setUserIndicator] = useState(''); // State to store user indicators such as "too high"
   
   // Colors for stat range indicators
   const green = "#90EE90";  // within optimal range
@@ -77,17 +79,85 @@ export default function ProgressBar({statValue, statType, plantName}) {
 
     }
 
+    if (statType === "water") {
+      if (statValue === 1) {
+        setUserIndicator("Good");
+        return green;
+      }
+      else {
+        setUserIndicator("Very Low");
+        return red;
+      }
+    }
+
     if (statValue <= max && statValue >= min) {
+      setUserIndicator("Good");
       return green;
 
     } else if (statValue <= max + fivePercentDeviation && statValue >= min - fivePercentDeviation) {
+      if(statValue >= max) {
+        setUserIndicator("Slightly High");
+      }
+      else if (statValue <= min) {
+        setUserIndicator("Slightly Low");
+      }
       return yellow;
 
     } else if (statValue <= max + tenPercentDeviation && statValue >= min - tenPercentDeviation) {
+      if(statValue >= max) {
+        setUserIndicator("High");
+      }
+      else if (statValue <= min) {
+        setUserIndicator("Low");
+      }
       return orange;
 
     } else {
+      if(statValue >= max) {
+        setUserIndicator("Very High");
+      }
+      else if (statValue <= min) {
+        setUserIndicator("Very Low");
+      }
       return red;
+    }
+  }
+
+  function renderText() {
+    if (statType === "moisture") {
+      return (
+        <h2 className="value">
+        {statValue}% <br/>
+        {userIndicator}
+      </h2>
+      );
+    }
+
+    else if (statType === "water") {
+      return (
+        <h2 className="value">
+        {statValue}% <br/>
+        {userIndicator}
+      </h2>
+      );
+    }
+
+    else if (statType === "temperature") {
+      return (
+        <h2 className="value">
+        {statValue}°F <br/>
+        {userIndicator}
+      </h2>
+      );
+    }
+
+    else if (statType === "ph") {
+      return (
+        <h2 className="value">
+        {statValue} <br/>
+        {userIndicator}
+      </h2>
+      );
     }
   }
 
@@ -101,6 +171,7 @@ export default function ProgressBar({statValue, statType, plantName}) {
   }, [statValue]); // Specify dependency array (statType in this case)
 
   return (
+    <div>
       <SemiCircleProgress 
                   percentage={percentage}
                   size={{
@@ -114,5 +185,7 @@ export default function ProgressBar({statValue, statType, plantName}) {
                     fill: "#7cb580"
                   }}
       />
+      {renderText()}
+    </div>
   );
 }
