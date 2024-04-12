@@ -166,24 +166,18 @@ export default function PlantProfiles() {
                     <div className="data">
                         <h2>Moisture</h2>
                         <ProgressBar statValue={moistureValue} statType={"moisture"} plantName={plantProfiles[params.id].name}/>
-                        <h2 
-                            className="value">{moistureValue}% <br/>
-                        </h2>
                     </div>
                     <div className="data">
                         <h2>Water Level</h2>
                         <ProgressBar statValue={waterValue} statType={"water"} plantName={plantProfiles[params.id].name}/>
-                        <h2 className="value">{getWaterString()}</h2>
                     </div>
                     <div className="data">
                         <h2>Temperature</h2>
                         <ProgressBar statValue={temperatureValue} statType={"temperature"} plantName={plantProfiles[params.id].name}/>
-                        <h2 className="value">{temperatureValue}°F</h2>
                     </div>
                     <div className="data">
                         <h2>pH</h2>
                         <ProgressBar statValue={checkPH(PHValue)} statType={"ph"} plantName={plantProfiles[params.id].name}/>
-                        <h2 className="value">{checkPH(PHValue)}</h2>
                     </div>
                 </div>
                 <Chart/>
