@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from 'react-router-dom';
 import { auth } from "../firebase/firebase";
+import '../styles.css';
 
 export default function Bluetooth () {
     let navigate = useNavigate();
@@ -99,28 +100,37 @@ export default function Bluetooth () {
     }
 
     return (
-        <div className="PairingBox">
-            <h1>Connect to WaterCrop:</h1>
-            <ol>
-                <li>Connect WaterCrop device to power</li>
-                <li>Open bluetooth settings on your current device</li>
-                <li>Select "raspberrypi" under discovered devices and wait for connection to be established</li>
-                <li>Enter the Wi-fi network name and password for the network that the WaterCrop device will be using below
-                    <br></br>
-                    <form onSubmit={handleSubmit}>
+        <div className="App">
+            <div className="BT-Title">
+                <h1>Connect to WaterCrop:</h1>
+            </div>   
+            <div className="instructions">
+                1. Connect WaterCrop device to power.<br/>
+                2. Open bluetooth settings on your current device.<br/>
+                3. Select "raspberrypi" under discovered devices and wait for connection to be established.<br/>
+                4. Enter the Wi-fi network name and password for the network that the WaterCrop device will be using below.
+                <br></br>
+                <form onSubmit={handleSubmit}>
+                    <div className="wifiName">
                         <label for="Wifi Name">Wi-fi Network Name:
                         <input type="text" name="wifiName" value={wifiInfo.name} onChange={(e) => setWifiInfo({...wifiInfo, name: e.target.value})} placeholder="..."></input>
                         </label>
                         <br></br>
+                    </div>
+                    <div className="wifiPassword">
                         <label for="Wifi Password">Wi-fi Network Password:
                         <input type="password" name="wifiPassword" value={wifiInfo.password} onChange={(e) => setWifiInfo({...wifiInfo, password: e.target.value})} placeholder="..."></input>
                         </label>
-                        <br></br>
+                    <br></br>
+                    </div>
+                    <div className="wifi-button">
                         <button type="submit">Submit</button>
-                    </form>
-                    <button onClick={handleGoBack}>Cancel</button>
-                </li>
-            </ol>
+                    </div>
+                </form>
+                    <div className="wifi-button">
+                        <button onClick={handleGoBack}>Cancel</button>
+                    </div>
+            </div>
             {userFeedback()}
         </div>
     )
