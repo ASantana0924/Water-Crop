@@ -52,15 +52,14 @@ export default function Home() {
   
 
   const handleAddPlant = () => {
-    // const dynamicValue = 'new';
-    // navigate(`/add-plant/${dynamicValue}`);
     navigate('/Bluetooth');
   };
 
   const handleEditPlant = (plantIndex) => {
+    const dynamicValue = 'edit';
     console.log('Editing plant:', plantIndex);
     const plantToEdit = plantProfiles[plantIndex];
-    navigate(`/add-plant/edit`, { state: { data: plantToEdit, index: plantIndex } });
+    navigate(`/add-plant/${dynamicValue}`, { state: { data: plantToEdit, index: plantIndex } });
   };
   
 
@@ -76,7 +75,9 @@ export default function Home() {
 
   return (
     <div className="App">
-      <h1 className="Header">Welcome to WaterCrop!</h1>
+      <h1 style={{ fontFamily: 'Roboto, sans-serif' }} className="Header">
+        Welcome to WaterCrop!
+      </h1>
       <p className="PageDescription">
         This page shows plants connected to your profile, along with options to manage them.
       </p>

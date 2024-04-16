@@ -1,19 +1,30 @@
 import React, { useState, useEffect } from 'react';
 import { Formik } from 'formik';
 import { Container, Form, Button, Row, Col } from 'react-bootstrap';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation, useParams } from 'react-router-dom';
 import SearchBar from "./SearchBar";
 
 const AddPlant = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [plantEntries, setPlantEntries] = useState([]);
+  const { dynamicValue } = useParams()
   const [formData, setFormData] = useState({
     id: '',
     name: '',
     summary: '',
     imageLink: '',
   });
+
+  // check if page is adding or editing plant
+  let message;
+  if (dynamicValue === 'new') {
+    message = 'Add New Plant';
+  } else if (dynamicValue === 'edit') {
+    message = 'Edit Plant';
+  } else {
+    message = 'Invalid Action';
+  }
 
   useEffect(() => {
     fetchPlantEntries();
@@ -78,7 +89,7 @@ const AddPlant = () => {
     <div className="login-container" style={{ backgroundColor: "#9cc599", minHeight: "100vh", display: "flex", flexDirection: "column", justifyContent: "center" }}>
       <form onSubmit={handleSubmit} style={{ width: "600px", margin: "auto", padding: "55px", borderRadius: "10px", background: "#fff" }}>
         <h1 style={{ textAlign: "center", fontSize: "44px", fontWeight: "bold", marginTop: "40px", marginBottom: "40px" }}>WaterCrop</h1>
-        <h2 style={{ marginBottom: "25px", fontSize: "30px" }}>Add New Plant</h2>
+        <h2 style={{ marginBottom: "25px", fontSize: "30px" }}>{message}</h2>
         
         {/* SearchBar Component */}
         <SearchBar data={plantEntries} onPlantSelect={handleAddPlant}/>
