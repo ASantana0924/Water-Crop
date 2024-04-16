@@ -6,13 +6,25 @@
         "imageLink": "https://images.pond5.com/aloe-aloe-vera-3d-096456817_iconl.jpeg",
         "stats": {
             "moisture": [20, 40],
-            "ph": [6.5,6.8],
+            "ph": [6.0,7.0],
             "temp": [55,85],
             "water_level": [0, 1]
         }
     },
     {
         "id": 1,
+        "name": "Aster",
+        "summary": "Celestial beauties gracing gardens with delicate blooms, weaving stories of enchantment.",
+        "imageLink": "https://images.finegardening.com/app/uploads/2018/01/23142545/asterericoides_daviddvorak_2_lg-main-500x500.jpg",
+        "stats": {
+            "moisture": [50, 70],
+            "ph": [5.0,8.0],
+            "temp": [50,70],
+            "water_level": [0, 1]
+        }
+    },
+    {
+        "id": 2,
         "name": "Bamboo",
         "summary": "A versatile plant used for various purposes, including construction and decoration.",
         "imageLink": "https://images.pond5.com/lucky-bamboo-plant-3d-091531506_iconl.jpeg",
@@ -24,7 +36,19 @@
         }
     },
     {
-        "id": 2,
+        "id": 3,
+        "name": "Blue Daze",
+        "summary": "Tranquil dreamscapes come to life with their serene blue petals, inviting peaceful contemplation.",
+        "imageLink": "https://m.media-amazon.com/images/I/51B4NzDc2UL.jpg",
+        "stats": {
+            "moisture": [60, 75],
+            "ph": [6.0,7.0],
+            "temp": [65,80],
+            "water_level": [0, 1]
+        }
+    },
+    {
+        "id": 4,
         "name": "Cactus",
         "summary": "Well-adapted to arid environments, known for its unique appearance.",
         "imageLink": "https://images.pond5.com/cactus-epiphyllum-sp-3d-089227657_iconl.jpeg",
@@ -36,7 +60,31 @@
         }
     },
     {
-        "id": 3,
+        "id": 5,
+        "name": "Carnation",
+        "summary": "Delicately ruffled petals in vibrant hues, symbolizing love, fascination, and distinction.",
+        "imageLink": "https://www.jrroses.com/wp-content/uploads/2021/10/lavender-carnation-e1634140187374.jpg",
+        "stats": {
+            "moisture": [40, 60],
+            "ph": [5.5, 6.5],
+            "temp": [40, 65],
+            "water_level": [0, 1]
+        }
+    },
+    {
+        "id": 6,
+        "name": "Daffodil",
+        "summary": "Cheerful trumpets of golden-yellow petals heralding spring's arrival.",
+        "imageLink": "https://brentandbeckysblog.com/cdn/shop/articles/brent_s-favorite-daffodils-yellow-daffodils-feature-square_5b82d1fc-6f04-4354-8575-5731dc39f459_1200x1200.jpg",
+        "stats": {
+            "moisture": [30, 50],
+            "ph": [6.0, 7.0],
+            "temp": [55, 70],
+            "water_level": [0, 1]
+        }
+    },
+    {
+        "id": 7,
         "name": "Daisy",
         "summary": "A classic flowering plant with a simple and charming appearance.",
         "imageLink": "https://h2.commercev3.net/cdn0.michiganbulb.com/images/500/78220A.jpg",
@@ -48,7 +96,7 @@
         }
     },
     {
-        "id": 4,
+        "id": 8,
         "name": "Eucalyptus",
         "summary": "Known for its fragrant leaves and oil, commonly used in aromatherapy.",
         "imageLink": "https://ih0.redbubble.net/image.901795473.3086/raf,360x360,075,t,fafafa:ca443f4786.jpg",
@@ -60,7 +108,7 @@
         }
     },
     {
-        "id": 5,
+        "id": 9,
         "name": "Gardenia",
         "summary": "Known for its fragrant white flowers and glossy leaves.",
         "imageLink": "https://www.ashaddflorist.com/files/1014/4640/7836/Gardenia.jpg",
@@ -72,7 +120,7 @@
         }
     },
     {
-        "id": 6,
+        "id": 10,
         "name": "Hibiscus",
         "summary": "Colorful flowering plant often associated with tropical regions.",
         "imageLink": "https://ih1.redbubble.net/image.3463415596.8180/raf,360x360,075,t,fafafa:ca443f4786.jpg",
@@ -84,19 +132,31 @@
         }
     },
     {
-        "id": 7,
+        "id": 11,
+        "name": "Hydrangea",
+        "summary": "Clusters of tiny flowers forming large, billowy blooms in shades of blue, pink, or white.",
+        "imageLink": "https://www.jacksonandperkins.com/images/xl/47825.webp",
+        "stats": {
+            "moisture": [50, 70],
+            "ph": [6.0,7.0],
+            "temp": [50,65],
+            "water_level": [0, 1]
+        }
+    },
+    {
+        "id": 12,
         "name": "Ivy",
         "summary": "Climbing or ground-covering plant with distinct leaves, commonly used for decoration.",
         "imageLink": "https://ih0.redbubble.net/image.4741515056.6025/raf,360x360,075,t,fafafa:ca443f4786.jpg",
         "stats": {
-            "moisture": [40, 60],
+            "moisture": [50, 70],
             "ph": [5.5,6.5],
             "temp": [45,80],
             "water_level": [0, 1]
         }
     },
     {
-        "id": 8,
+        "id": 13,
         "name": "Jasmine",
         "summary": "Fragrant flowering plant known for its aromatic white flowers.",
         "imageLink": "https://t4.ftcdn.net/jpg/06/36/06/33/360_F_636063301_GAStVK960frsKaiT4JnbVj9VIrrB01Jb.jpg",
@@ -108,7 +168,67 @@
         }
     },
     {
-        "id": 9,
+        "id": 14,
+        "name": "Lavender",
+        "summary": "Fragrant sentinels of serenity, their soothing presence infuses gardens with calm and affectionate warmth.",
+        "imageLink": "https://images.finegardening.com/app/uploads/2018/01/23141638/the_princess_lavender_fnl-main-500x500.jpg",
+        "stats": {
+            "moisture": [40, 60],
+            "ph": [6.0,7.0],
+            "temp": [60,70],
+            "water_level": [0, 1]
+        }
+    },
+    {
+        "id": 15,
+        "name": "Peony",
+        "summary": "Luxurious, voluptuous blooms in soft pastel shades or bold, rich colors.",
+        "imageLink": "https://www.jacksonandperkins.com/images/xl/40327.webp",
+        "stats": {
+            "moisture": [50, 70],
+            "ph": [6.5,7.5],
+            "temp": [60,70],
+            "water_level": [0, 1]
+        }
+    },
+    {
+        "id": 16,
+        "name": "Petunias",
+        "summary": "Bursting with vibrant colors and playful charm, they are the joyful spirits of springtime.",
+        "imageLink": "https://images.finegardening.com/app/uploads/2018/01/23144318/petuniaxintegrifolia_johnglover_1_lg_0-main-500x500.jpg",
+        "stats": {
+            "moisture": [20, 40],
+            "ph": [5.0,6.0],
+            "temp": [60,80],
+            "water_level": [0, 1]
+        }
+    },
+    {
+        "id": 17,
+        "name": "Rose",
+        "summary": "Timelessly elegant with velvety petals in various hues, epitomizing love, beauty, and passion.",
+        "imageLink": "https://buchanansplants.com/wp-content/uploads/2021/09/Veterans-Honor-Rose-500x500.jpg",
+        "stats": {
+            "moisture": [40, 60],
+            "ph": [6.0,7.0],
+            "temp": [60,70],
+            "water_level": [0, 1]
+        }
+    },
+    {
+        "id": 18,
+        "name": "Sage",
+        "summary": "A symbol of elegance and wisdom, its mysterious allure adds depth to spring gardens.",
+        "imageLink": "https://images.finegardening.com/app/uploads/2018/01/23215258/Resize_of_1-27-2010-MG-sage-thumb1x1.JPG",
+        "stats": {
+            "moisture": [40, 60],
+            "ph": [6.0,7.0],
+            "temp": [60,70],
+            "water_level": [0, 1]
+        }
+    },
+    {
+        "id": 19,
         "name": "Sunflower",
         "summary": "Sunflowers are vibrant, yellow blooms that symbolize positivity and adoration in gardens.",
         "imageLink": "https://t4.ftcdn.net/jpg/02/25/12/33/360_F_225123378_iAHgUsACXnqBQIBjXNeBrC71RNEPgqUF.jpg",
@@ -120,7 +240,7 @@
         }
     },
     {
-        "id": 10,
+        "id": 20,
         "name": "Tulip",
         "summary": "Tulips are elegant and colorful spring flowers that symbolize beauty and love.",
         "imageLink": "https://images.pond5.com/tulips-yellow-single-laying-3d-090874374_iconl.jpeg",
