@@ -28,6 +28,11 @@ const AddPlant = () => {
 
   useEffect(() => {
     fetchPlantEntries();
+    // if editing, fill in form data
+    if (dynamicValue === 'edit')
+    {
+      setFormData(location.state.data)
+    }
   }, []);
 
   const fetchPlantEntries = async () => {
