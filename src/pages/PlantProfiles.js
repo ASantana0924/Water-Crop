@@ -127,15 +127,6 @@ export default function PlantProfiles() {
         const docRef = await addDoc(firestoreDBRef, averageData);
     }
 
-    function getWaterString() {
-        if (waterValue) {
-            return("Full");
-        }
-        else {
-            return("Empty")
-        }
-    }
-
     function checkPH(rawPh) {
         if ((rawPh > 14) || (rawPh < 0)) {
             return (rawPh - 14).toFixed(1);

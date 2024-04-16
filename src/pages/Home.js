@@ -4,6 +4,12 @@ import React, { useState, useEffect , useRef} from 'react';
 import { useNavigate , useLocation } from 'react-router-dom';
 import '../styles.css';
 
+// Button Color imports
+import { auth, realtimeDatabase, RTDBRef, firestoreDatabase } from "../firebase/firebase";
+import { collection, addDoc } from "firebase/firestore";
+import { onValue, ref } from "firebase/database";
+import ButtonColor from "../tools/ButtonColor";
+
 export default function Home() {
   let navigate = useNavigate();
   let location = useLocation();
@@ -73,6 +79,31 @@ export default function Home() {
     navigate(path);
   };
 
+  // New code for color of plant health button
+
+  // Initialize useState variables for plant profile page
+  const [moistureValue, setMoistureValue] = useState(0);
+  const [waterValue, setWaterValue] = useState(0);
+  const [temperatureValue, setTemperatureValue] = useState(0);
+  const [PHValue, setPHValue] = useState(0);
+
+  useEffect(() => {
+    // Listen for changes in the database
+    const unsubscribe = onValue(RTDBRef, (snapshot) => {
+        // Update plant object attributes with live data
+        setMoistureValue(snapshot.val().moisture);
+        setWaterValue(snapshot.val().water_level);
+        setTemperatureValue(snapshot.val().temperature);
+        setPHValue(snapshot.val().pH);
+    });
+
+    // Clean up the listener when the component unmounts
+    return () => {
+        unsubscribe();
+    };
+  }, []);
+
+
   return (
     <div className="App">
       <h1 style={{ fontFamily: 'Roboto, sans-serif' }} className="Header">
@@ -96,7 +127,8 @@ export default function Home() {
               />
             </div>
             <p className="Description">{plant.summary}</p>
-            <button onClick={() => handleStatsPlant(plant, index)}>View Plant Health!</button>
+            <button onClick={() => handleStatsPlant(plant, index)} >View Plant Health!</button>
+            {console.log(index)}
             <div className="ActionButtons">
               <button onClick={() => handleEditPlant(index)}>Edit</button>
               <button onClick={() => handleDeletePlant(index)}>Delete</button>

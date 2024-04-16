@@ -250,5 +250,17 @@
             "temp": [60,70],
             "water_level": [0, 1]
         }
+    },
+    {
+        "id": 11,
+        "name": "Vervain",
+        "summary": "Vervain is a flowering herb known for its slender spikes of purple or white flowers.",
+        "imageLink": "https://naturesgrace.co.uk/wp-content/uploads/2021/08/blog-post-5-vervain-1024x1024.jpg",
+        "stats": {
+            "moisture": [50, 70],
+            "ph": [6.0,7.0],
+            "temp": [70,80],
+            "water_level": [0, 1]
+        }
     }
 ]
