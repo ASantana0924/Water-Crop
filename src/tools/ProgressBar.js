@@ -123,6 +123,15 @@ export default function ProgressBar({statValue, statType, plantName}) {
     }
   }
 
+  function getWaterString() {
+    if (statValue) {
+        return("Full");
+    }
+    else {
+        return("Empty")
+    }
+}
+
   function renderText() {
     if (statType === "moisture") {
       return (
@@ -136,7 +145,7 @@ export default function ProgressBar({statValue, statType, plantName}) {
     else if (statType === "water") {
       return (
         <h2 className="value">
-        {statValue}% <br/>
+        {getWaterString()} <br/>
         {userIndicator}
       </h2>
       );
