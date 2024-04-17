@@ -14,6 +14,12 @@ const AddPlant = () => {
     name: '',
     summary: '',
     imageLink: '',
+    stats: {
+      moisture: [],
+      ph: [],
+      temp: [],
+      water_level: [0, 1]
+    }
   });
 
   // check if page is adding or editing plant
@@ -84,10 +90,39 @@ const AddPlant = () => {
   // handle form field changes
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
+  
+    // check if the field name corresponds to a nested array in the stats object
+    const nestedArraysToUpdate = {
+      moisture_low: 'moisture',
+      moisture_high: 'moisture',
+      ph_low: 'ph',
+      ph_high: 'ph',
+      temp_low: 'temp',
+      temp_high: 'temp'
+    };
+  
+    // if the field name corresponds to a nested array
+    if (nestedArraysToUpdate.hasOwnProperty(name)) {
+      // convert the value to a number if it's not empty
+      const numericValue = value !== '' ? parseFloat(value) : '';
+
+      const arrayName = nestedArraysToUpdate[name];
+      const otherValue = name.includes('low') ? formData.stats[arrayName][1] : formData.stats[arrayName][0];
+  
+      setFormData(prevFormData => ({
+        ...prevFormData,
+        stats: {
+          ...prevFormData.stats,
+          [arrayName]: name.includes('low') ? [numericValue, otherValue] : [otherValue, value]
+        }
+      }));
+    } else {
+      // For other fields, update them directly
+      setFormData({
+        ...formData,
+        [name]: value,
+      });
+    }
   };
 
   return (
@@ -120,6 +155,42 @@ const AddPlant = () => {
               <Col sm="10">
                 <Form.Control type="text" name="imageLink" value={formData.imageLink} onChange={handleChange} />
               </Col>
+            </Form.Group>
+
+            <Form.Group as={Row} controlId="moisture">
+              <Form.Label column sm="5">Ideal Moisture Range:</Form.Label>
+              <Row className="mb-1">
+                <Col sm="2">
+                  <Form.Control type="text" name="moisture_low" value={formData.stats.moisture[0]} onChange={handleChange} />
+                </Col>
+                <Col sm="2">
+                  <Form.Control type="text" name="moisture_high" value={formData.stats.moisture[1]} onChange={handleChange} />
+                </Col>
+              </Row>
+            </Form.Group>
+
+            <Form.Group as={Row} controlId="ph">
+              <Form.Label column sm="4">Ideal pH Range:</Form.Label>
+              <Row className="mb-1">
+                <Col sm="2">
+                  <Form.Control type="text" name="ph_low" value={formData.stats.ph[0]} onChange={handleChange} />
+                </Col>
+                <Col sm="2">
+                  <Form.Control type="text" name="ph_high" value={formData.stats.ph[1]} onChange={handleChange} />
+                </Col>
+              </Row>
+            </Form.Group>
+
+            <Form.Group as={Row} controlId="temp">
+              <Form.Label column sm="6">Ideal Temperature (F°) Range:</Form.Label>
+              <Row className="mb-1">
+                <Col sm="2">
+                  <Form.Control type="text" name="temp_low" value={formData.stats.temp[0]} onChange={handleChange} />
+                </Col>
+                <Col sm="2">
+                  <Form.Control type="text" name="temp_high" value={formData.stats.temp[1]} onChange={handleChange} />
+                </Col>
+              </Row>
             </Form.Group>
 
             <Button onClick={handleSubmit} type="submit" style={{ width: "100%", padding: "10px", background: "#4d814a", color: "#fff", border: "none", borderRadius: "5px" }}>Submit</Button>
