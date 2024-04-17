@@ -20,7 +20,7 @@
 }
 
 .PlantInfo {
-    height: 20%;
+    height: 32%;
     padding: 0px;
 }
 
@@ -44,6 +44,10 @@
     border-radius: 5px;
 }
 
+.StatsTabs {
+   padding-bottom: 10px;
+}
+
 .meters {
     text-align: center;
     width: 100%;
@@ -62,57 +66,16 @@
     transform: translate(-50%, -20%);
 }
 
-.tabs button {
-    white-space: nowrap;
-    width: 30%;
-    height: 70px;
-    margin: 10px;
-    border-radius: 10px;
-    font-size: 190%;
-    border: none;
-}
-
-.tabs button:focus {
-    background-color: lightgreen;
-}
-
-.Table-container {
-    height: 40%;
-    overflow-y: auto;
-    margin-bottom: 50px;
-    gap: 10px;
-}
-
-table {
-    border-collapse: collapse;
-    width:80%;
-    border: 1px solid #ffffff;
-}
-
-thead {
-    position: sticky;
-    top: 0;
-    margin: 0 0 0 0;
-}
-
-th {
-    padding: 8px;
-    font-size: 42px;
-    border: 1px solid #ffffff;
-    background-color: rgb(0, 100, 0);
-    font-size: 1.25vw;
-}
-
-td {
-    text-align: left;
-    padding: 8px;
-    font-size: 32px;
-    border: 1px solid #ffffff;
-    font-size: 1.25vw;
-}
-
 .chart {
     width: 80%;
     height: 50%;
     margin: auto;
+}
+
+.PlantInfo h2 {
+    font-size: 20px;
+}
+
+.PlantInfo p {
+    font-weight: normal;
 }

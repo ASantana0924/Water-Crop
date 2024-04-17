@@ -127,15 +127,6 @@ export default function PlantProfiles() {
         const docRef = await addDoc(firestoreDBRef, averageData);
     }
 
-    function getWaterString() {
-        if (waterValue) {
-            return("Full");
-        }
-        else {
-            return("Empty")
-        }
-    }
-
     function checkPH(rawPh) {
         if ((rawPh > 14) || (rawPh < 0)) {
             return (rawPh - 14).toFixed(1);
@@ -153,7 +144,18 @@ export default function PlantProfiles() {
                 </div>
                 <div className="PlantText">
                     <h1>Plant {Number(params.id) + 1}: {plantProfiles[params.id].name} </h1>
-                    <p>Description: {plantProfiles[params.id].summary} </p>
+                    <h2>Description: {plantProfiles[params.id].summary}</h2>
+                    <p>
+                        Watering Schedule: {plantProfiles[params.id].watering}
+                        <br/>
+                        Ideal Ranges:
+                        <br/>
+                        &emsp;&emsp;• Moisture: {plantProfiles[params.id].stats.moisture[0]}% - {plantProfiles[params.id].stats.moisture[1]}%
+                        <br/>
+                        &emsp;&emsp;• Temperature: {plantProfiles[params.id].stats.temp[0]}°F - {plantProfiles[params.id].stats.temp[1]}°F
+                        <br/>
+                        &emsp;&emsp;• pH: {plantProfiles[params.id].stats.ph[0]} - {plantProfiles[params.id].stats.ph[1]}
+                    </p>
                     <div className="HomeButton">
                         <button onClick={() => returnHome()}>Home</button>
                     </div>
@@ -182,9 +184,6 @@ export default function PlantProfiles() {
                 </div>
                 <Chart/>
             </div>
-
-            
-
         </div>
     );
 }

@@ -4,6 +4,12 @@ import React, { useState, useEffect , useRef} from 'react';
 import { useNavigate , useLocation } from 'react-router-dom';
 import '../styles.css';
 
+// Button Color imports
+import { auth, realtimeDatabase, RTDBRef, firestoreDatabase } from "../firebase/firebase";
+import { collection, addDoc } from "firebase/firestore";
+import { onValue, ref } from "firebase/database";
+import ButtonColor from "../tools/ButtonColor";
+
 export default function Home() {
   let navigate = useNavigate();
   let location = useLocation();
@@ -73,6 +79,159 @@ export default function Home() {
     navigate(path);
   };
 
+  // New code for color of plant health button
+
+  // Initialize useState variables for plant profile page
+  const [moistureValue, setMoistureValue] = useState(0);
+  const [waterValue, setWaterValue] = useState(0);
+  const [temperatureValue, setTemperatureValue] = useState(0);
+  const [PHValue, setPHValue] = useState(0);
+  const [mColor, setMColor] = useState(null);
+  const [wColor, setWColor] = useState(null);
+  const [tColor, setTColor] = useState(null);
+  const [pColor, setPColor] = useState(null);
+  const [worstColor, setWorstColor] = useState(null);
+  const [worstColorCode, setWorstColorCode] = useState(null);
+
+
+  useEffect(() => {
+    // Listen for changes in the database
+    const unsubscribe = onValue(RTDBRef, (snapshot) => {
+      // Update plant object attributes with live data
+      setMoistureValue(snapshot.val().moisture);
+      setWaterValue(snapshot.val().water_level);
+      setTemperatureValue(snapshot.val().temperature);
+      setPHValue(snapshot.val().pH);
+    });
+
+    if (plantProfiles[0] != undefined) {
+      getWorstColor();
+    }
+
+    // Clean up the listener when the component unmounts
+    return () => {
+        unsubscribe();
+    };
+  }, []);
+
+  function getLimits(plant) {
+    // Extract the desired values
+    const [moisture_min, moisture_max] = plant.stats.moisture;
+    const [water_min, water_max] = plant.stats.water_level;
+    const [temp_min, temp_max] = plant.stats.temp;
+    const [ph_min, ph_max] = plant.stats.ph;
+
+    // Return the values as an object
+    return { moisture_min, moisture_max, water_min, water_max, temp_min, temp_max, ph_min, ph_max };
+  }
+
+  function getWorstColor() {
+    var min = 0;
+    var max = 0;
+    var fivePercentDeviation = 0 
+    var tenPercentDeviation = 0;
+    const plantValues = getLimits(plantProfiles[0]);
+    console.log(plantProfiles[0]);
+
+    // Moisture color
+    min = plantValues.moisture_min;
+    max = plantValues.moisture_max;
+    fivePercentDeviation = 0.05 * 100;
+    tenPercentDeviation = 0.1 * 100;
+
+    if (moistureValue <= max && moistureValue >= min) {
+        setMColor(3);
+    }
+    else if (moistureValue <= max + fivePercentDeviation && moistureValue >= min - fivePercentDeviation) {
+        setMColor(2);
+    }
+    else if (moistureValue <= max + tenPercentDeviation && moistureValue >= min - tenPercentDeviation) {
+        setMColor(1);
+    }
+    else {
+        setMColor(0);
+    }
+
+    // water level color
+    if (waterValue == 1) {
+        setWColor(3);
+    }
+    else {
+        setWColor(0);
+    }
+
+    // Temperature color
+    min = plantValues.temp_min;
+    max = plantValues.temp_max;
+    fivePercentDeviation = 0.05 * 110;
+    tenPercentDeviation = 0.1 * 110;
+
+    if (temperatureValue <= max && temperatureValue >= min) {
+        setTColor(3);
+    }
+    else if (temperatureValue <= max + fivePercentDeviation && temperatureValue >= min - fivePercentDeviation) {
+        setTColor(2);
+    }
+    else if (temperatureValue <= max + tenPercentDeviation && temperatureValue >= min - tenPercentDeviation) {
+        setTColor(1);
+    }
+    else {
+        setTColor(0);
+    }
+
+    // pH color
+    min = plantValues.ph_min;
+    max = plantValues.ph_max;
+    fivePercentDeviation = 0.05 * 14;
+    tenPercentDeviation = 0.1 * 14; 
+
+    if (PHValue <= max && PHValue >= min) {
+        setPColor(3);
+    }
+    else if (PHValue <= max + fivePercentDeviation && PHValue >= min - fivePercentDeviation) {
+        setPColor(2);
+    }
+    else if (PHValue <= max + tenPercentDeviation && PHValue >= min - tenPercentDeviation) {
+        setPColor(1);
+    }
+    else {
+        setPColor(0);
+    }
+
+
+    // Find worst of all colors
+    setWorstColor(mColor);
+
+    if (wColor < mColor) {
+        setWorstColor(wColor);
+    }
+
+    if (tColor < wColor) {
+        setWorstColor(tColor);
+    }
+
+    if (tColor < pColor) {
+        setWorstColor(pColor);
+    }
+
+    console.log(mColor, wColor, tColor, pColor);
+
+
+    // Determine color
+    if (worstColor == 3) {
+      setWorstColorCode("#90EE90");
+    }
+    else if (worstColor == 2) {
+      setWorstColorCode("#FEFF99"); 
+    }
+    else if (worstColor == 1) {
+      setWorstColorCode("#FF9B5F"); 
+    }
+    else if (worstColor == 0) {
+      setWorstColorCode("#FF6F68"); 
+    }
+  }
+
   return (
     <div className="App">
       <h1 style={{ fontFamily: 'Roboto, sans-serif' }} className="Header">
@@ -96,7 +255,8 @@ export default function Home() {
               />
             </div>
             <p className="Description">{plant.summary}</p>
-            <button onClick={() => handleStatsPlant(plant, index)}>View Plant Health!</button>
+            <button onClick={() => handleStatsPlant(plant, index)} style={{backgroundColor: worstColorCode}}>View Plant Health!</button>
+            {console.log(index)}
             <div className="ActionButtons">
               <button onClick={() => handleEditPlant(index)}>Edit</button>
               <button onClick={() => handleDeletePlant(index)}>Delete</button>
