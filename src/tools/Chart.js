@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { firestoreDatabase } from "../firebase/firebase";
-import { Line } from 'react-chartjs-2'
+import { Line } from 'react-chartjs-2';
+import ChartAnnotation from 'chartjs-plugin-annotation';
 
 import {
     collection, 
@@ -19,7 +20,14 @@ import {
     Legend
 } from 'chart.js';
 
-ChartJS.register(LineElement, CategoryScale, LinearScale, PointElement);
+ChartJS.register(LineElement, CategoryScale, LinearScale, PointElement, ChartAnnotation);
+
+// Colors for stat range indicators
+const green = 'rgba(144, 238, 144, 0.45)';  // within optimal range
+const yellow = 'rgba(254, 255, 153, 0.45)'; // within 5% of optimal range
+const orange = 'rgba(255, 155, 95, 0.45)';  // within 10% of optimal range
+const red = 'rgba(255, 111, 104, 0.45)';    // above 10% outside of optimal range
+const white = 'rgba(255, 255, 255, 255)';
 
 /*const plantDataHistoryRef = collection(firestoreDatabase, 'PlantDataHistory/plant1/stats');
 
@@ -76,12 +84,71 @@ const setMax = (stat) => {
     }
 }
 
-export default function Chart() {
+export default function Chart({plantName}) {
     //getPlantStatsHistory();
     const [plantData, setPlantData] = useState([]);
     const [selectedStat, setSelectedStat] = useState(["moisture"]);
     const firestoreDBRef = collection(firestoreDatabase, 'PlantDataHistory/plant1/stats');
     const q = query(firestoreDBRef, orderBy("time"));
+    const [boundMin, setBoundMin] = useState(0);
+    const [boundMax, setBoundMax] = useState(0);
+
+    // Retrieve optimal stat ranges from plant API json given a plant name
+    const fetchPlantStatRanges = async (name) => {
+        // Read the JSON data from the file
+        // const jsonData = await fetch('../../public/plantProfiles.json')
+        // .then(response => response.json());
+
+        const response = await fetch('http://localhost:3000/plantprofiles.json');
+        const jsonData = await response.json();
+
+        // Find the plant object matching the given name
+        const plant = jsonData.find(plant => plant.name === name);
+
+        console.log(name + " => ");
+
+        // Check if the plant was found
+        if (!plant) {
+        return null; // Return null if not found
+        }
+
+        // Extract the desired values
+        const [moisture_min, moisture_max] = plant.stats.moisture;
+        const [water_min, water_max] = plant.stats.water_level;
+        const [temp_min, temp_max] = plant.stats.temp;
+        const [ph_min, ph_max] = plant.stats.ph;
+
+        // Return the values as an object
+        return { moisture_min, moisture_max, water_min, water_max, temp_min, temp_max, ph_min, ph_max };
+    };
+
+    const getBoundMin = async () => {
+        const plantStatBounds = await fetchPlantStatRanges(plantName);
+
+        if (selectedStat == "moisture") {
+            return plantStatBounds.moisture_min;
+        } else if (selectedStat == "water_level") {
+            return plantStatBounds.water_min;
+        } else if (selectedStat == "temperature") {
+            return plantStatBounds.temp_min
+        } else {
+            return plantStatBounds.ph_min;
+        }
+    }
+
+    const getBoundMax = async () => {
+        const plantStatBounds = await fetchPlantStatRanges(plantName);
+
+        if (selectedStat == "moisture") {
+            return plantStatBounds.moisture_max;
+        } else if (selectedStat == "water_level") {
+            return plantStatBounds.water_max;
+        } else if (selectedStat == "temperature") {
+            return plantStatBounds.temp_max
+        } else {
+            return plantStatBounds.ph_max;
+        }
+    }
 
     useEffect(() => {
         const unsubscribe = onSnapshot(q, (querySnapshot) => {
@@ -113,6 +180,15 @@ export default function Chart() {
             setPlantData(data);
         });
 
+        const fetchHighlightBounds = async () => {
+            const min = await getBoundMin();
+            const max = await getBoundMax();
+            setBoundMin(min);
+            setBoundMax(max);
+        };
+      
+        fetchHighlightBounds(); // Call the async function within useEffect
+
         return () => {
             unsubscribe();
         };
@@ -134,7 +210,74 @@ export default function Chart() {
 
     const options = {
         plugins: {
-            legend: true
+            legend: true,
+            annotation: {
+                annotations: {
+                    in_range: {
+                        type: 'box',
+                        xMin: 0,
+                        xMax: plantData.length,
+                        yMin: boundMin,
+                        yMax: boundMax,
+                        borderColor: green,
+                        backgroundColor: green
+                    },
+                    little_low: {
+                        type: 'box',
+                        xMin: 0,
+                        xMax: plantData.length,
+                        yMin: boundMin - (0.05 * (setMax(selectedStat) - setMin(selectedStat))),
+                        yMax: boundMin,
+                        borderColor: yellow,
+                        backgroundColor: yellow
+                    },
+                    little_high: {
+                        type: 'box',
+                        xMin: 0,
+                        xMax: plantData.length,
+                        yMin: boundMax,
+                        yMax: boundMax + (0.05 * (setMax(selectedStat) - setMin(selectedStat))),
+                        borderColor: yellow,
+                        backgroundColor: yellow
+                    },
+                    moderately_low: {
+                        type: 'box',
+                        xMin: 0,
+                        xMax: plantData.length,
+                        yMin: boundMin - (0.1 * (setMax(selectedStat) - setMin(selectedStat))),
+                        yMax: boundMin - (0.05 * (setMax(selectedStat) - setMin(selectedStat))),
+                        borderColor: orange,
+                        backgroundColor: orange
+                    },
+                    moderately_high: {
+                        type: 'box',
+                        xMin: 0,
+                        xMax: plantData.length,
+                        yMin: boundMax + (0.05 * (setMax(selectedStat) - setMin(selectedStat))),
+                        yMax: boundMax + (0.1 * (setMax(selectedStat) - setMin(selectedStat))),
+                        borderColor: orange,
+                        backgroundColor: orange
+                    },
+                    too_low: {
+                        type: 'box',
+                        xMin: 0,
+                        xMax: plantData.length,
+                        yMin: setMin(selectedStat),
+                        yMax: boundMin - (0.1 * (setMax(selectedStat) - setMin(selectedStat))),
+                        borderColor: red,
+                        backgroundColor: red
+                    },
+                    too_high: {
+                        type: 'box',
+                        xMin: 0,
+                        xMax: plantData.length,
+                        yMin: boundMax + (0.1 * (setMax(selectedStat) - setMin(selectedStat))),
+                        yMax: setMax(selectedStat),
+                        borderColor: red,
+                        backgroundColor: red
+                    }
+                }
+            }
         },
         scales: {
             y: {
