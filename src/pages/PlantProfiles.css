@@ -20,7 +20,7 @@
 }
 
 .PlantInfo {
-    height: 32%;
+    height: 20%;
     padding: 0px;
 }
 
@@ -57,6 +57,7 @@
     width: 20%;
     float: left;
     position: relative;
+    margin-top: 0px;
 }
 
 .data .value{
@@ -66,10 +67,10 @@
     transform: translate(-50%, -20%);
 }
 
-.chart {
-    width: 80%;
-    height: 50%;
-    margin: auto;
+.data button {
+    font-size: 26px;
+    margin: 0px;
+    border-color: #7d9c7b;
 }
 
 .PlantInfo h2 {
@@ -78,4 +79,24 @@
 
 .PlantInfo p {
     font-weight: normal;
+}
+
+.ProgressBar {
+    margin: 0px;
+}
+
+.Popover {
+    margin-bottom: 0px;
+    padding: 0px;
+}
+
+.PopoverText {
+    padding: 0px;
+}
+
+.chart {
+    padding: 0px;
+    margin: 0px;
+    width: 100%;
+    /* background-color: white; */
 }

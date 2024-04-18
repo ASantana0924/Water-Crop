@@ -1,14 +1,30 @@
 import React, { useState, useEffect } from 'react';
+import { auth, realtimeDatabase, RTDBRef, firestoreDatabase } from "../firebase/firebase";
+import { onValue, ref, get } from "firebase/database";
 
-export default function ButtonColor({moisture, waterLevel, temperature, ph, index}) {
+export default function ButtonColor() {
+    const index = 0;
+    const [moisture, setMoisture] = useState(0);
+    const [waterLevel, setWaterLevel] = useState(0);
+    const [temperature, setTemperature] = useState(0);
+    const [ph, setPH] = useState(0);
     const [mColor, setMColor] = useState(null); // State to store color
     const [wColor, setWColor] = useState(null); // State to store color
     const [tColor, setTColor] = useState(null); // State to store color
     const [pColor, setPColor] = useState(null); // State to store color
 
+    get(RTDBRef, (snapshot) => {
+        setMoisture(snapshot.val().moisture);
+        setWaterLevel(snapshot.val().water_level);
+        setTemperature(snapshot.val().temperature);
+        setPH(snapshot.val().pH);
+    });
+
+    console.log(temperature);
+
     const [plantProfiles, setPlantProfiles] = useState(() => JSON.parse(localStorage.getItem('plantProfiles')) || []);
     const plant = plantProfiles[index];
-    console.log(index);
+    console.log(plantProfiles[0]);
 
     // Find the plant object matching the given name
     function getLimits() {
@@ -111,19 +127,22 @@ export default function ButtonColor({moisture, waterLevel, temperature, ph, inde
 
     console.log(mColor, wColor, tColor, pColor);
 
+    const [worstColorCode, setWorstColorCode] = useState(null);
 
     // Determine color
     if (worstColor == 3) {
-        return "#90EE90";
+        setWorstColorCode("#90EE90");
     }
     else if (worstColor == 2) {
-        return "#FEFF99"; 
+        setWorstColorCode("#FEFF99"); 
     }
     else if (worstColor == 1) {
-        return "#FF9B5F"; 
+        setWorstColorCode("#FF9B5F"); 
     }
     else {
-        return "#FF6F68"; 
+        setWorstColorCode("#FF6F68"); 
     }
+
+    return worstColorCode;
 
 }
