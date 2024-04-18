@@ -180,7 +180,7 @@ export default function PlantProfiles() {
                         <ProgressBar statValue={checkPH(PHValue)} statType={"ph"} plantName={plantProfiles[params.id].name}/>
                     </div>
                 </div>
-                <Chart/>
+                <Chart plantName={plantProfiles[params.id].name}/>
             </div>
 
             
